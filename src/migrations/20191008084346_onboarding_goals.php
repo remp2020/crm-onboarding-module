@@ -8,8 +8,8 @@ class OnboardingGoals extends AbstractMigration
     {
         $this->table('onboarding_goals')
             ->addColumn('code', 'string', ['null' => false])
-            ->addColumn('name', 'json', ['null' => true])
-            ->addColumn('type', 'json', ['null' => true])
+            ->addColumn('name', 'string', ['null' => true])
+            ->addColumn('type', 'string', ['null' => true])
 
             ->addColumn('created_at', 'datetime', ['null' => false])
             ->addColumn('updated_at', 'datetime', ['null' => false])
