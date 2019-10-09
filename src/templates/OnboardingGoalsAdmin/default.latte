@@ -1,0 +1,50 @@
+{block #title}{_onboarding.admin.onboarding_goals.default.title}{/block}
+
+{block #content}
+
+<div class="row">
+
+  <div class="col-md-12">
+    <h1>
+      {_onboarding.admin.onboarding_goals.default.title}
+      <a n:href="new" class="btn btn-success btn-lg pull-right"><i
+                class="fa fa-sliders-h"></i> {_onboarding.admin.onboarding_goals.default.new}</a>
+    </h1>
+    <hr>
+  </div>
+
+  <div class="col-md-12">
+    <table class="table table-striped table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>{_onboarding.data.goals.fields.name}</th>
+          <th>{_onboarding.data.goals.fields.code}</th>
+          <th>{_onboarding.data.goals.fields.type}</th>
+          <th>{_onboarding.data.goals.fields.created_at}</th>
+          <th>{_system.actions}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $onboardingGoals as $goal}
+          <tr>
+            <td>{$goal->name}</td>
+            <td><code>{$goal->code}</code></td>
+            <td>{$goal->created_at|date:'d.m.Y H:i'}</td>
+            <td>{$goal->type}</td>
+            <td style="white-space: nowrap">
+              <p class="text-nowrap">
+                <a n:href="Show $goal->id"
+                        class="btn btn-sm btn-info" title="{_system.show}"><i class="fa fa-eye"></i> </a>
+                <a n:href="Edit $goal->id"
+                        class="btn btn-sm btn-primary" title="{_system.edit}"><i class="fa fa-edit"></i> </a>
+              </p>
+            </td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+
+    {control goals_vp}
+  </div>
+
+</div>

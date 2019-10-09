@@ -1,0 +1,7 @@
+menu:
+	onboarding_goals: Onboarding cíle
+admin:
+	onboarding_goals:
+		default:
+			title: Onboarding cíle
+			new: Nový cíl

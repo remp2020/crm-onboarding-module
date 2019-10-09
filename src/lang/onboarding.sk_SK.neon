@@ -1,0 +1,15 @@
+menu:
+	onboarding_goals: Onboarding ciele
+admin:
+	onboarding_goals:
+		default:
+			title: Onboarding ciele
+			new: Nový cieľ
+data:
+	goals:
+		fields:
+			name: Názov
+			code: Kód
+			type: Typ
+			created_at: Vytvorený
+

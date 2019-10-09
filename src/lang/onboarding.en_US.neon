@@ -1,0 +1,7 @@
+menu:
+	onboarding_goals: Onboarding goals
+admin:
+	onboarding_goals:
+		default:
+			title: Onboarding goals
+			new: New goal

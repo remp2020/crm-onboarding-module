@@ -2,3 +2,5 @@ services:
 	moduleManager:
 		setup:
 			- addModule(Crm\OnboardingModule\OnboardingModule())
+
+	- Crm\OnboardingModule\Repository\OnboardingGoalsRepository

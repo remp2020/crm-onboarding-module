@@ -54,4 +54,17 @@ class OnboardingModule extends CrmModule
     //        1000 // we need to have this executed before \Crm\PaymentsModule\Events\PaymentStatusChangeHandler
     //    );
     //}
+
+    public function registerAdminMenuItems(MenuContainerInterface $menuContainer)
+    {
+        $internalMenu = new MenuItem('', '#', 'fa fa-th-large', 890);
+
+        $menuItem = new MenuItem(
+            $this->translator->translate('onboarding.menu.onboarding_goals'),
+            ':Onboarding:OnboardingGoalsAdmin:',
+            'fa fa-check',
+            900
+        );
+        $menuContainer->attachMenuItemToForeignModule(':Users:UsersAdmin:', $internalMenu, $menuItem);
+    }
 }
