@@ -3,18 +3,24 @@
 namespace Crm\OnboardingModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
+use Crm\ApplicationModule\ActiveRow;
 use Crm\ApplicationModule\Components\VisualPaginator;
+use Crm\OnboardingModule\Forms\OnboardingGoalFormFactory;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 
 class OnboardingGoalsAdminPresenter extends AdminPresenter
 {
     private $onboardingGoalsRepository;
 
+    private $onboardingGoalFormFactory;
+
     public function __construct(
-        OnboardingGoalsRepository $onboardingGoalsRepository
+        OnboardingGoalsRepository $onboardingGoalsRepository,
+        OnboardingGoalFormFactory $onboardingGoalFormFactory
     ) {
         parent::__construct();
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
+        $this->onboardingGoalFormFactory = $onboardingGoalFormFactory;
     }
 
     public function renderDefault()
@@ -37,33 +43,34 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
 
     public function renderShow($id)
     {
-        //$funnel = $this->salesFunnelsRepository->find($id);
-        //if (!$funnel) {
-        //    $this->flashMessage($this->translator->translate('sales_funnel.admin.sales_funnels.messages.sales_funnel_not_found'), 'danger');
-        //    $this->redirect('default');
-        //}
-        //$this->template->funnel = $funnel;
-        //$this->template->total_paid_amount = $this->salesFunnelsRepository->totalPaidAmount($funnel);
-        //$this->template->subscriptionTypesPaymentsMap = $this->salesFunnelsRepository->getSalesFunnelDistribution($funnel);
-        //$this->template->meta = $this->salesFunnelsMetaRepository->all($funnel);
-        //
-        //$payments = $this->paymentsRepository->getTable()
-        //    ->where(['status' => PaymentsRepository::STATUS_PAID, 'sales_funnel_id' => $funnel->id])
-        //    ->order('paid_at DESC');
-        //
-        //$filteredCount = $this->template->filteredCount = $payments->count('*');
-        //$vp = new VisualPaginator();
-        //$this->addComponent($vp, 'paymentsvp');
-        //$paginator = $vp->getPaginator();
-        //$paginator->setItemCount($filteredCount);
-        //$paginator->setItemsPerPage($this->onPage);
-        //
-        //$this->template->vp = $vp;
-        //$this->template->payments = $payments->limit($paginator->getLength(), $paginator->getOffset());
+        $goal = $this->onboardingGoalsRepository->find($id);
+        if (!$goal) {
+            $this->flashMessage($this->translator->translate('onboarding.admin.onboarding_goals.messages.goal_not_found'));
+            $this->redirect('default');
+        }
+
+        $this->template->goal = $goal;
     }
 
     public function renderEdit($id)
     {
-        $this->template->funnel = $this->salesFunnelsRepository->find($id);
+        $this->template->goal = $this->onboardingGoalsRepository->find($id);
+    }
+
+    protected function createComponentOnboardingGoalForm()
+    {
+        $id = $this->getParameter('id');
+        $form = $this->onboardingGoalFormFactory->create($id);
+
+        $this->onboardingGoalFormFactory->onSave = function (ActiveRow $goal) {
+            $this->flashMessage($this->translator->translate('onboarding.admin.onboarding_goals.messages.goal_created'));
+            $this->redirect('Show', $goal->id);
+        };
+        $this->onboardingGoalFormFactory->onUpdate = function (ActiveRow $goal) {
+            $this->flashMessage($this->translator->translate('onboarding.admin.onboarding_goals.messages.goal_updated'));
+            $this->redirect('Show', $goal->id);
+        };
+
+        return $form;
     }
 }

@@ -5,6 +5,19 @@ admin:
 		default:
 			title: Onboarding ciele
 			new: Nový cieľ
+		new:
+			title: Nový cieľ
+			back: Späť
+		edit:
+			title: Úprava cieľa
+			back: Späť
+		show:
+			edit: Upraviť
+			back: Späť
+		messages:
+			goal_created: Cieľ vytvorený
+			goal_updated: Cieľ aktualizovaný
+			goal_not_found: Cieľ sa nenašiel
 data:
 	goals:
 		fields:
@@ -12,4 +25,3 @@ data:
 			code: Kód
 			type: Typ
 			created_at: Vytvorený
-

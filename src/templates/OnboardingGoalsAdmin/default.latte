@@ -29,8 +29,8 @@
           <tr>
             <td>{$goal->name}</td>
             <td><code>{$goal->code}</code></td>
-            <td>{$goal->created_at|date:'d.m.Y H:i'}</td>
             <td>{$goal->type}</td>
+            <td>{$goal->created_at|userDate}</td>
             <td style="white-space: nowrap">
               <p class="text-nowrap">
                 <a n:href="Show $goal->id"

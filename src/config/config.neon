@@ -4,3 +4,4 @@ services:
 			- addModule(Crm\OnboardingModule\OnboardingModule())
 
 	- Crm\OnboardingModule\Repository\OnboardingGoalsRepository
+	- Crm\OnboardingModule\Forms\OnboardingGoalFormFactory
