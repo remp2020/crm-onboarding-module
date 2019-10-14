@@ -15,6 +15,8 @@ class UserOnboardingGoals extends AbstractMigration
 
             ->addForeignKey('user_id', 'users')
             ->addForeignKey('onboarding_goal_id', 'onboarding_goals')
+
+            ->addIndex(['user_id', 'onboarding_goal_id'], ['unique' => true])
             ->create();
     }
 }
