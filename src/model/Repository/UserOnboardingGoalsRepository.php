@@ -22,7 +22,7 @@ class UserOnboardingGoalsRepository extends Repository
         return $this->insert($data);
     }
 
-    public function confirm($userId, $onboardingGoalId)
+    public function complete($userId, $onboardingGoalId)
     {
         $goal = $this->getTable()->where([
             'user_id' => $userId,
