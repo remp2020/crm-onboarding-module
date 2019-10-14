@@ -2,8 +2,8 @@
 
 namespace Crm\OnboardingModule\Events;
 
-use Crm\ApplicationModule\ActiveRow;
 use League\Event\AbstractEvent;
+use Nette\Database\Table\ActiveRow;
 
 class OnboardingGoalCompletedEvent extends AbstractEvent
 {
