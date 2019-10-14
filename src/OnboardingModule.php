@@ -28,6 +28,9 @@ class OnboardingModule extends CrmModule
         $apiRoutersContainer->attachRouter(
             new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'complete'), \Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler::class, BearerTokenAuthorization::class)
         );
+        $apiRoutersContainer->attachRouter(
+            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'list'), \Crm\OnboardingModule\Api\OnboardingGoalsListHandler::class, BearerTokenAuthorization::class)
+        );
     }
 
     public function registerAdminMenuItems(MenuContainerInterface $menuContainer)
