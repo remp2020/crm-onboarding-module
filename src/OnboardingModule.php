@@ -4,7 +4,6 @@ namespace Crm\OnboardingModule;
 
 use Crm\ApiModule\Api\ApiRoutersContainerInterface;
 use Crm\ApiModule\Authorization\BearerTokenAuthorization;
-use Crm\ApiModule\Authorization\NoAuthorization;
 use Crm\ApiModule\Router\ApiIdentifier;
 use Crm\ApiModule\Router\ApiRoute;
 use Crm\ApplicationModule\CrmModule;
