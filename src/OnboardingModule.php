@@ -2,6 +2,11 @@
 
 namespace Crm\OnboardingModule;
 
+use Crm\ApiModule\Api\ApiRoutersContainerInterface;
+use Crm\ApiModule\Authorization\BearerTokenAuthorization;
+use Crm\ApiModule\Authorization\NoAuthorization;
+use Crm\ApiModule\Router\ApiIdentifier;
+use Crm\ApiModule\Router\ApiRoute;
 use Crm\ApplicationModule\CrmModule;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
@@ -16,6 +21,13 @@ class OnboardingModule extends CrmModule
         $emitter->addListener(
             OnboardingGoalCompletedEvent::class,
             $this->getInstance(OnboardingGoalCompletedHandler::class)
+        );
+    }
+
+    public function registerApiCalls(ApiRoutersContainerInterface $apiRoutersContainer)
+    {
+        $apiRoutersContainer->attachRouter(
+            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'complete'), \Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler::class, BearerTokenAuthorization::class)
         );
     }
 

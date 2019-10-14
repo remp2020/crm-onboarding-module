@@ -3,7 +3,8 @@ services:
 		setup:
 			- addModule(Crm\OnboardingModule\OnboardingModule())
 
+	- Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler
+	- Crm\OnboardingModule\Events\OnboardingGoalCompletedHandler
+	- Crm\OnboardingModule\Forms\OnboardingGoalFormFactory
 	- Crm\OnboardingModule\Repository\OnboardingGoalsRepository
 	- Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository
-	- Crm\OnboardingModule\Forms\OnboardingGoalFormFactory
-	- Crm\OnboardingModule\Events\OnboardingGoalCompletedHandler
