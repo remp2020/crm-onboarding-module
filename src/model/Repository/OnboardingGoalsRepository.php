@@ -31,4 +31,11 @@ class OnboardingGoalsRepository extends Repository
     {
         return $this->getTable()->order('created_at DESC');
     }
+
+    public static function inputForTypeSelect()
+    {
+        return [
+            OnboardingGoalsRepository::TYPE_SIMPLE => OnboardingGoalsRepository::TYPE_SIMPLE
+        ];
+    }
 }

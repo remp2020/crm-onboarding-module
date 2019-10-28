@@ -46,9 +46,7 @@ class OnboardingGoalFormFactory
         $form->addSelect(
             'type',
             'onboarding.data.goals.fields.type',
-            [
-                OnboardingGoalsRepository::TYPE_SIMPLE => OnboardingGoalsRepository::TYPE_SIMPLE
-            ]
+            OnboardingGoalsRepository::inputForTypeSelect()
         );
 
         $form->addHidden('onboarding_goal_id', $id);
