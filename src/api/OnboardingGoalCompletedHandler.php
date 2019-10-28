@@ -72,14 +72,14 @@ class OnboardingGoalCompletedHandler extends ApiHandler
 
         $goal = $this->onboardingGoalsRepository->findBy('code', $goalCode);
         if (!$goal) {
-            $response = new JsonResponse(['status' => 'error', 'message' => 'goal not found']);
+            $response = new JsonResponse(['status' => 'error', 'message' => "goal '$goalCode' not found"]);
             $response->setHttpCode(Response::S404_NOT_FOUND);
             return $response;
         }
 
         $user = $this->usersRepository->find($userId);
         if (!$user) {
-            $response = new JsonResponse(['status' => 'error', 'message' => 'user not found']);
+            $response = new JsonResponse(['status' => 'error', 'message' => "user with ID '$userId' not found"]);
             $response->setHttpCode(Response::S404_NOT_FOUND);
             return $response;
         }
