@@ -15,7 +15,7 @@ class UserOnboardingGoalsRepository extends Repository
         $data = [
             'user_id' => $userId,
             'onboarding_goal_id' => $onboardingGoalId,
-            'done' => $done ? 1 : 0,
+            'done' => $done,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ];
@@ -33,7 +33,7 @@ class UserOnboardingGoalsRepository extends Repository
             return $this->add($userId, $onboardingGoalId, true);
         }
 
-        return $this->update($goal, ['done' => 1]);
+        return $this->update($goal, ['done' => true]);
     }
 
     public function update(IRow &$row, $data)
