@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UpgradesModule\DI;
+namespace Crm\OnboardingModule\DI;
 
 use Kdyby\Translation\DI\ITranslationProvider;
 use Nette\DI\Compiler;
