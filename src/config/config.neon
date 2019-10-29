@@ -5,7 +5,6 @@ services:
 
 	- Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler
 	- Crm\OnboardingModule\Api\OnboardingGoalsListHandler
-	- Crm\OnboardingModule\Events\OnboardingGoalCompletedHandler
 	- Crm\OnboardingModule\Forms\OnboardingGoalFormFactory
 	- Crm\OnboardingModule\Repository\OnboardingGoalsRepository
 	- Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository

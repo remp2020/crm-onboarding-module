@@ -15,14 +15,6 @@ use League\Event\Emitter;
 
 class OnboardingModule extends CrmModule
 {
-    public function registerEventHandlers(Emitter $emitter)
-    {
-        $emitter->addListener(
-            OnboardingGoalCompletedEvent::class,
-            $this->getInstance(OnboardingGoalCompletedHandler::class)
-        );
-    }
-
     public function registerApiCalls(ApiRoutersContainerInterface $apiRoutersContainer)
     {
         $apiRoutersContainer->attachRouter(
