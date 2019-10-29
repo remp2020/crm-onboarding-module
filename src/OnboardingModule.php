@@ -9,9 +9,6 @@ use Crm\ApiModule\Router\ApiRoute;
 use Crm\ApplicationModule\CrmModule;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
-use Crm\OnboardingModule\Events\OnboardingGoalCompletedEvent;
-use Crm\OnboardingModule\Events\OnboardingGoalCompletedHandler;
-use League\Event\Emitter;
 
 class OnboardingModule extends CrmModule
 {
