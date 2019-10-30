@@ -1,0 +1,27 @@
+menu:
+	onboarding_goals: Onboarding cíle
+admin:
+	onboarding_goals:
+		default:
+			title: Onboarding cíle
+			new: Nový cíl
+		new:
+			title: Nový cíl
+			back: Zpět
+		edit:
+			title: Úprava cíle
+			back: Zpět
+		show:
+			edit: Upravit
+			back: Zpět
+		messages:
+			goal_created: Cíl vytvořen
+			goal_updated: Cíl aktualizován
+			goal_not_found: Cíl nenalezen
+data:
+	goals:
+		fields:
+			name: Názov
+			code: Kód
+			type: Typ
+			created_at: Vytvořený

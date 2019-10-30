@@ -1,0 +1,27 @@
+menu:
+	onboarding_goals: Onboarding goals
+admin:
+	onboarding_goals:
+		default:
+			title: Onboarding goal
+			new: New goal
+		new:
+			title: New goal
+			back: Späť
+		edit:
+			title: Edit goal
+			back: Back
+		show:
+			edit: Edit
+			back: Back
+		messages:
+			goal_created: Goal created
+			goal_updated: Goal updated
+			goal_not_found: Goal was not found
+data:
+	goals:
+		fields:
+			name: Name
+			code: Code
+			type: Type
+			created_at: Created at

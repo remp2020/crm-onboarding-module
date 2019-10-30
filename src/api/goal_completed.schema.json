@@ -1,0 +1,16 @@
+{
+  "$id": "https://example.com/post.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Goal completed resource",
+  "type": "object",
+  "required": ["goal_code", "user_id"],
+  "properties": {
+    "goal_code": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": ["integer", "string"]
+    }
+  },
+  "definitions": {}
+}

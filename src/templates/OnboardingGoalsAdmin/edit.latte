@@ -1,0 +1,22 @@
+{block #title}{_products.admin.products.edit.title}{/block}
+
+{block #content}
+
+<div class="row">
+  <div class="col-md-12">
+    <a n:href="Default"><i class="fa fa-angle-left"></i> {_onboarding.admin.onboarding_goals.edit.back}</a>
+    <div class="page-header">
+      <h1>
+        {_onboarding.admin.onboarding_goals.edit.title}
+        <small>[{$goal->id}]</small>
+        {$goal->name}
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    {control onboardingGoalForm}
+  </div>
+</div>

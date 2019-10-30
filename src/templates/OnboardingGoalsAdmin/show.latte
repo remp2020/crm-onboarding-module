@@ -1,0 +1,37 @@
+{block #title}{$goal->name}{/block}
+
+{block #content}
+
+<div class="row">
+    <div class="col-md-12">
+        <a n:href="default"><i class="fa fa-angle-left"></i> {_onboarding.admin.onboarding_goals.show.back}</a>
+
+        <div class="page-header">
+            <h1>
+                <small>[{$goal->id}]</small>
+                {$goal->name}
+                <a n:href="edit $goal->id" class="btn btn-primary btn-lg pull-right"><i
+                            class="fa fa-edit"></i> {_onboarding.admin.onboarding_goals.show.edit}</a>
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <b>{_onboarding.data.goals.fields.name}:</b> {$goal->name}
+            </li>
+            <li class="list-group-item">
+                <b>{_onboarding.data.goals.fields.code}:</b> <code>{$goal->code}</code></a>
+            </li>
+            <li class="list-group-item">
+                <b>{_onboarding.data.goals.fields.type}:</b> {$goal->type}
+            </li>
+            <li class="list-group-item">
+                <b>{_onboarding.data.goals.fields.created_at}:</b> {$goal->created_at|userDate}
+            </li>
+        </ul>
+    </div>
+</div>
