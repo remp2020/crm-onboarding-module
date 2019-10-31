@@ -32,10 +32,9 @@ class OnboardingGoalsRepository extends Repository
         return $this->getTable()->order('created_at DESC');
     }
 
-    public static function inputForTypeSelect()
+
+    public static function availableTypes()
     {
-        return [
-            OnboardingGoalsRepository::TYPE_SIMPLE => OnboardingGoalsRepository::TYPE_SIMPLE
-        ];
+        return [OnboardingGoalsRepository::TYPE_SIMPLE];
     }
 }

@@ -43,10 +43,15 @@ class OnboardingGoalFormFactory
         $form->addText('name', 'onboarding.data.goals.fields.name');
         $form->addText('code', 'onboarding.data.goals.fields.code');
 
+        $typeInputValues = [];
+        foreach (OnboardingGoalsRepository::availableTypes() as $type) {
+            $typeInputValues[$type] = $type;
+        }
+
         $form->addSelect(
             'type',
             'onboarding.data.goals.fields.type',
-            OnboardingGoalsRepository::inputForTypeSelect()
+            $typeInputValues
         );
 
         $form->addHidden('onboarding_goal_id', $id);
