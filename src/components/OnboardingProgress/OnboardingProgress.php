@@ -72,25 +72,9 @@ class OnboardingProgress extends Control implements WidgetInterface
 
     public function render($id)
     {
-
-        $userGoalsCompletition = [];
-        foreach ($this->userOnboardingGoalsRepository->all($id) as $userGoal) {
-            $userGoalsCompletition[$userGoal->onboarding_goal_id] = $userGoal->created_at;
-        }
-
-        $goals = [];
-        foreach ($this->onboardingGoalsRepository->all() as $goal) {
-            $goals[] = (object) [
-                'id' => $goal->id,
-                'name' => $goal->name,
-                'code' => $goal->code,
-                'done' => array_key_exists($goal->id, $userGoalsCompletition),
-                'done_at' =>$userGoalsCompletition[$goal->id] ?? null,
-            ];
-        }
-
+        $userGoals = $this->userOnboardingGoalsRepository->all($id, true);
         $this->userId = $id;
-        $this->template->goals = $goals;
+        $this->template->userGoals = $userGoals;
         $this->template->id = $id;
         $this->template->setFile(__DIR__ . '/' . $this->templateName);
         $this->template->render();

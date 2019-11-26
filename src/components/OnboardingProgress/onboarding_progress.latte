@@ -1,4 +1,4 @@
-{if count($goals) == 0}
+{if count($userGoals) == 0}
  <div class="bs-callout bs-callout-info">
    <h4>{_onboarding.component.onboarding_progress.no_goals}</h4>
    <p class="lead">{_onboarding.component.onboarding_progress.no_goals_desc}</p>
@@ -9,22 +9,16 @@
     <tr>
       <th>{_onboarding.data.goals.fields.name}</th>
       <th>{_onboarding.data.goals.fields.code}</th>
-      <th>{_onboarding.component.onboarding_progress.completed}</th>
       <th>{_onboarding.component.onboarding_progress.completed_at}</th>
     </tr>
     </thead>
     <tbody>
-      <tr n:foreach="$goals as $goal">
+      <tr n:foreach="$userGoals as $userGoal">
         <td>
-          <a href="{plink :Onboarding:OnboardingGoalsAdmin:show $goal->id}">{$goal->name}</a>
+          <a href="{plink :Onboarding:OnboardingGoalsAdmin:show $userGoal->onboarding_goal->id}">{$userGoal->onboarding_goal->name}</a>
         </td>
-        <td><code>{$goal->code}</code></td>
-        <td>
-          {if $goal->done}
-            <span class="label label-success">{_onboarding.component.onboarding_progress.yes}</span>
-          {/if}
-        </td>
-        <td><span class="text text-muted">{$goal->done_at|userDate}</span></td>
+        <td><code>{$userGoal->onboarding_goal->code}</code></td>
+        <td><span class="text text-muted">{$userGoal->created_at|userDate}</span></td>
       </tr>
     </tbody>
   </table>

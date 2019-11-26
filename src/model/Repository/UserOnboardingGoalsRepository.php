@@ -17,7 +17,9 @@ class UserOnboardingGoalsRepository extends Repository
             $where['done'] = $done;
         }
 
-        return $this->getTable()->where($where);
+        return $this->getTable()
+            ->where($where)
+            ->order('created_at DESC');
     }
 
     public function add($userId, $onboardingGoalId, bool $done = false)
