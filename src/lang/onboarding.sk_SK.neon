@@ -1,5 +1,13 @@
 menu:
 	onboarding_goals: Onboarding ciele
+component:
+	onboarding_progress:
+		header: Onboarding progress
+		completed_at: Splnený v čase
+		completed: Splnený
+		yes: Áno
+		no_goals: Žiadne ciele
+		no_goals_desc: Žiadne ciele nie sú definované
 admin:
 	onboarding_goals:
 		default:
