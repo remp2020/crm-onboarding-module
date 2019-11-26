@@ -29,7 +29,7 @@ At this point you (superadmin) should be able to define new goals via People - O
 
 If you need other roles to access goal definition, you can assign access to roles at People - Admin rights page (`/users/admin-group-admin/`).
 
-## Using onboarding
+## Using Onboarding
 
 Onboarding module lets you define goals that your users should achieve. The goal is merely a label with flag describing whether it was finished by a user or not.
 
@@ -52,7 +52,7 @@ Once the goal is defined, head to the Scenario builder and create a scenario inc
 
 The completion of the goal can differ based on the type of goal. Currently we plan to support two types of goals:
 
-- *Simple*. These type of goals have to be completed explicitly for each user by calling [onboarding-goals/complete]() API endpoint.
+- *Simple*. These type of goals have to be completed explicitly for each user by calling [onboarding-goals/complete](#post-onboarding-goalscomplete) API endpoint.
 - *Beam* (not available yet). These type of goals have Beam event defined as a trigger. Once the event is submitted to Beam, goal will be automatically completed for given user in CRM.
 
 ## API documentation
