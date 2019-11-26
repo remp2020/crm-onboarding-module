@@ -1,5 +1,22 @@
 # CRM Onboarding Module
 
+Onboarding module lets you define goals that your users should achieve. The goal is merely a label with flag describing whether it was finished by a user or not.
+
+Once the goal is defined, head to the Scenario builder and create a scenario including "Goal" element. The element can be configured with following properties:
+
+- Which goals need to be completed for element to trigger "success" branch.
+- How often CRM should check whether goals are completed.
+- How long CRM should wait (timeout) before giving up on goal and triggering "fail" branch.
+
+<details>
+<summary>Preview</summary>
+
+![Scenario goals overview](./src/docs/scenario_goals.png)
+
+![Scenario goal configuration](./src/docs/scenario_goal_config.png)
+
+</details>
+
 ## Installing module
 
 We recommend using Composer for installation and update management.
@@ -29,26 +46,7 @@ At this point you (superadmin) should be able to define new goals via People - O
 
 If you need other roles to access goal definition, you can assign access to roles at People - Admin rights page (`/users/admin-group-admin/`).
 
-## Using Onboarding
-
-Onboarding module lets you define goals that your users should achieve. The goal is merely a label with flag describing whether it was finished by a user or not.
-
-Once the goal is defined, head to the Scenario builder and create a scenario including "Goal" element. The element can be configured with following properties:
-
-- Which goals need to be completed for element to trigger "success" branch.
-- How often CRM should check whether goals are completed.
-- How long CRM should wait (timeout) before giving up on goal and triggering "fail" branch.
-
-<details>
-<summary>Preview</summary>
-
-![Scenario goals overview](./src/docs/scenario_goals.png)
-
-![Scenario goal configuration](./src/docs/scenario_goal_config.png)
-
-</details>
-
-### Completing goals
+## Completing goals
 
 The completion of the goal can differ based on the type of goal. Currently we plan to support two types of goals:
 
