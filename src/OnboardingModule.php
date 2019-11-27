@@ -9,6 +9,8 @@ use Crm\ApiModule\Router\ApiRoute;
 use Crm\ApplicationModule\CrmModule;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
+use Crm\ApplicationModule\Widget\WidgetManagerInterface;
+use Crm\OnboardingModule\Components\OnboardingProgress;
 
 class OnboardingModule extends CrmModule
 {
@@ -33,5 +35,14 @@ class OnboardingModule extends CrmModule
             900
         );
         $menuContainer->attachMenuItemToForeignModule(':Users:UsersAdmin:', $internalMenu, $menuItem);
+    }
+
+    public function registerWidgets(WidgetManagerInterface $widgetManager)
+    {
+        $widgetManager->registerWidget(
+            'admin.user.detail.bottom',
+            $this->getInstance(OnboardingProgress::class),
+            1500
+        );
     }
 }

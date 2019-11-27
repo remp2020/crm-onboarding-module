@@ -1,5 +1,12 @@
 menu:
 	onboarding_goals: Onboarding goals
+component:
+	onboarding_progress:
+		header: Onboarding goals
+		completed_at: Completed at
+		yes: "Yes"
+		no_goals: No goals
+		no_goals_desc: No goals are defined
 admin:
 	onboarding_goals:
 		default:

@@ -1,0 +1,25 @@
+{if count($userGoals) == 0}
+ <div class="bs-callout bs-callout-info">
+   <h4>{_onboarding.component.onboarding_progress.no_goals}</h4>
+   <p class="lead">{_onboarding.component.onboarding_progress.no_goals_desc}</p>
+ </div>
+{else}
+  <table class="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th>{_onboarding.data.goals.fields.name}</th>
+      <th>{_onboarding.data.goals.fields.code}</th>
+      <th>{_onboarding.component.onboarding_progress.completed_at}</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr n:foreach="$userGoals as $userGoal">
+        <td>
+          <a href="{plink :Onboarding:OnboardingGoalsAdmin:show $userGoal->onboarding_goal->id}">{$userGoal->onboarding_goal->name}</a>
+        </td>
+        <td><code>{$userGoal->onboarding_goal->code}</code></td>
+        <td><span class="text text-muted">{$userGoal->created_at|userDate}</span></td>
+      </tr>
+    </tbody>
+  </table>
+{/if}

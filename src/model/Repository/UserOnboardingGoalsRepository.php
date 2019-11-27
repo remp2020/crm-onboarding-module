@@ -10,6 +10,18 @@ class UserOnboardingGoalsRepository extends Repository
 {
     protected $tableName = 'user_onboarding_goals';
 
+    public function all($userId, bool $done = null)
+    {
+        $where = ['user_id' => $userId];
+        if ($done !== null) {
+            $where['done'] = $done;
+        }
+
+        return $this->getTable()
+            ->where($where)
+            ->order('created_at DESC');
+    }
+
     public function add($userId, $onboardingGoalId, bool $done = false)
     {
         $data = [
