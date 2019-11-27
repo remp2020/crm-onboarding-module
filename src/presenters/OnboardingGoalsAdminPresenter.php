@@ -6,6 +6,7 @@ use Crm\AdminModule\Components\DateFilterFormFactory;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\ActiveRow;
 use Crm\ApplicationModule\Components\Graphs\GoogleBarGraphGroupControlFactoryInterface;
+use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroupControlFactoryInterface;
 use Crm\ApplicationModule\Components\VisualPaginator;
 use Crm\ApplicationModule\Graphs\Criteria;
 use Crm\ApplicationModule\Graphs\GraphDataItem;
@@ -127,7 +128,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         return $form;
     }
 
-    public function createComponentGoogleGoalCompletionCountGraph(GoogleBarGraphGroupControlFactoryInterface $factory)
+    public function createComponentGoogleGoalCompletionCountGraph(GoogleLineGraphGroupControlFactoryInterface $factory)
     {
         $graphDataItem = new GraphDataItem();
         $graphDataItem->setCriteria((new Criteria())
