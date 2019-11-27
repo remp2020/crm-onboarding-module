@@ -20,6 +20,7 @@
           <th>{_onboarding.data.goals.fields.name}</th>
           <th>{_onboarding.data.goals.fields.code}</th>
           <th>{_onboarding.data.goals.fields.type}</th>
+          <th>{_onboarding.admin.onboarding_goals.default.completion_count_for_last|noescape}</th>
           <th>{_onboarding.data.goals.fields.created_at}</th>
           <th>{_system.actions}</th>
         </tr>
@@ -30,6 +31,11 @@
             <td>{$goal->name}</td>
             <td><code>{$goal->code}</code></td>
             <td>{$goal->type}</td>
+            <td>
+              <span class="badge badge-default">{$goalsLast24hours[$goal->id] ?? 0}</span> 24 {_onboarding.admin.onboarding_goals.default.hours}<br />
+              <span class="badge badge-default">{$goalsLast7days[$goal->id] ?? 0}</span> 7 {_onboarding.admin.onboarding_goals.default.days}<br />
+              <span class="badge badge-default">{$goalsLast31days[$goal->id] ?? 0}</span> 31 {_onboarding.admin.onboarding_goals.default.days}<br />
+            </td>
             <td>{$goal->created_at|userDate}</td>
             <td style="white-space: nowrap">
               <p class="text-nowrap">

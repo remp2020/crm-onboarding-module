@@ -12,6 +12,9 @@ admin:
 		default:
 			title: Onboarding goal
 			new: New goal
+			hours: hours
+			days: days
+			completion_count_for_last: "Completion count<br />for last"
 		new:
 			title: New goal
 			back: Späť

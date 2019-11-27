@@ -7,6 +7,9 @@ use Crm\ApplicationModule\ActiveRow;
 use Crm\ApplicationModule\Components\VisualPaginator;
 use Crm\OnboardingModule\Forms\OnboardingGoalFormFactory;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
+use DateInterval;
+use Nette\Utils\DateTime;
 
 class OnboardingGoalsAdminPresenter extends AdminPresenter
 {
@@ -14,18 +17,31 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
 
     private $onboardingGoalFormFactory;
 
+    private $userOnboardingGoalsRepository;
+
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
+        UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
         OnboardingGoalFormFactory $onboardingGoalFormFactory
     ) {
         parent::__construct();
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
         $this->onboardingGoalFormFactory = $onboardingGoalFormFactory;
+        $this->userOnboardingGoalsRepository = $userOnboardingGoalsRepository;
     }
 
     public function renderDefault()
     {
         $onboardingGoals = $this->onboardingGoalsRepository->all();
+
+        $goalsLast24hours = $this->userOnboardingGoalsRepository
+            ->completedGoalsCountSince((new DateTime())->sub(new DateInterval('P1D')));
+
+        $goalsLast7days = $this->userOnboardingGoalsRepository
+            ->completedGoalsCountSince((new DateTime())->sub(new DateInterval('P7D')));
+
+        $goalsLast31days = $this->userOnboardingGoalsRepository
+            ->completedGoalsCountSince((new DateTime())->sub(new DateInterval('P31D')));
 
         $vp = new VisualPaginator();
         $this->addComponent($vp, 'goals_vp');
@@ -35,6 +51,9 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $paginator->setItemsPerPage($this->onPage);
 
         $this->template->onboardingGoals = $onboardingGoals->limit($paginator->getLength(), $paginator->getOffset());
+        $this->template->goalsLast24hours = $goalsLast24hours;
+        $this->template->goalsLast7days = $goalsLast7days;
+        $this->template->goalsLast31days = $goalsLast31days;
     }
 
     public function renderNew()

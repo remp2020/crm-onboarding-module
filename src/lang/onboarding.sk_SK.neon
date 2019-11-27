@@ -12,6 +12,9 @@ admin:
 		default:
 			title: Onboarding ciele
 			new: Nový cieľ
+			hours: hodín
+			days: dní
+			completion_count_for_last: "Počet dokončení<br />za posledných"
 		new:
 			title: Nový cieľ
 			back: Späť
