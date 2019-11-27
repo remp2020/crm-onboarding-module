@@ -5,7 +5,6 @@ namespace Crm\OnboardingModule\Presenters;
 use Crm\AdminModule\Components\DateFilterFormFactory;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\ActiveRow;
-use Crm\ApplicationModule\Components\Graphs\GoogleBarGraphGroupControlFactoryInterface;
 use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroupControlFactoryInterface;
 use Crm\ApplicationModule\Components\VisualPaginator;
 use Crm\ApplicationModule\Graphs\Criteria;
@@ -98,17 +97,6 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
     public function renderEdit($id)
     {
         $this->template->goal = $this->onboardingGoalsRepository->find($id);
-    }
-
-    public function createComponentDateFilterForm(DateFilterFormFactory $dateFilterFormFactory)
-    {
-        $form = $dateFilterFormFactory->create($this->dateFrom, $this->dateTo);
-        $form->onSuccess[] = function ($form, $values) {
-            $this->dateFrom = $values['date_from'];
-            $this->dateTo = $values['date_to'];
-            $this->redirect($this->action);
-        };
-        return $form;
     }
 
     protected function createComponentOnboardingGoalForm()
