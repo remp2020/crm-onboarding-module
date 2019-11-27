@@ -41,16 +41,11 @@ class UserOnboardingGoalsRepository extends Repository
 
     public function completedGoalsCountSince(\DateTime $from): array
     {
-        $q = $this->getTable()
+        return $this->getTable()
         ->group('onboarding_goal_id')
         ->where('created_at >= ?', $from)
-        ->select('COUNT(*) AS total, onboarding_goal_id');
-
-        $goalCounts = [];
-        foreach ($q as $row) {
-            $goalCounts[$row->onboarding_goal_id] = $row->total;
-        }
-        return $goalCounts;
+        ->select('COUNT(*) AS total, onboarding_goal_id')
+        ->fetchPairs('onboarding_goal_id', 'total');
     }
 
     public function complete($userId, $onboardingGoalId)
