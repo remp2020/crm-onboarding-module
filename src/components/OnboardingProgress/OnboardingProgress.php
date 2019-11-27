@@ -15,10 +15,6 @@ class OnboardingProgress extends Control implements WidgetInterface
 
     private $translator;
 
-    private $user;
-
-    private $userId;
-
     private $doneCount;
 
     private $onboardingGoalsRepository;
@@ -62,18 +58,9 @@ class OnboardingProgress extends Control implements WidgetInterface
         return $this->doneCount;
     }
 
-    private function getUser($id)
-    {
-        if (!$this->user) {
-            $this->user = $this->usersRepository->find($id);
-        }
-        return $this->user;
-    }
-
     public function render($id)
     {
         $userGoals = $this->userOnboardingGoalsRepository->all($id, true);
-        $this->userId = $id;
         $this->template->userGoals = $userGoals;
         $this->template->id = $id;
         $this->template->setFile(__DIR__ . '/' . $this->templateName);
