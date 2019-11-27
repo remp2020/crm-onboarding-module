@@ -24,6 +24,8 @@ admin:
 		show:
 			edit: Edit
 			back: Back
+			completion_graph_title: Goal completition count
+			completion_graph_help: Count of how many subscribers have completed particular goal within selected time interval
 		messages:
 			goal_created: Goal created
 			goal_updated: Goal updated

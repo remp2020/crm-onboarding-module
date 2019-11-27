@@ -2,9 +2,13 @@
 
 namespace Crm\OnboardingModule\Presenters;
 
+use Crm\AdminModule\Components\DateFilterFormFactory;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\ActiveRow;
+use Crm\ApplicationModule\Components\Graphs\GoogleBarGraphGroupControlFactoryInterface;
 use Crm\ApplicationModule\Components\VisualPaginator;
+use Crm\ApplicationModule\Graphs\Criteria;
+use Crm\ApplicationModule\Graphs\GraphDataItem;
 use Crm\OnboardingModule\Forms\OnboardingGoalFormFactory;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
@@ -18,6 +22,21 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
     private $onboardingGoalFormFactory;
 
     private $userOnboardingGoalsRepository;
+
+    /** @persistent */
+    public $dateFrom;
+
+    /** @persistent */
+    public $dateTo;
+
+    public $goalId;
+
+    public function startup()
+    {
+        parent::startup();
+        $this->dateFrom = $this->dateFrom ?? DateTime::from('-2 months')->format('Y-m-d');
+        $this->dateTo = $this->dateTo ?? DateTime::from('today')->format('Y-m-d');
+    }
 
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
@@ -68,12 +87,27 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
             $this->redirect('default');
         }
 
+
+        $this->goalId = $goal->id;
         $this->template->goal = $goal;
+        $this->template->dateFrom = $this->dateFrom;
+        $this->template->dateTo = $this->dateTo;
     }
 
     public function renderEdit($id)
     {
         $this->template->goal = $this->onboardingGoalsRepository->find($id);
+    }
+
+    public function createComponentDateFilterForm(DateFilterFormFactory $dateFilterFormFactory)
+    {
+        $form = $dateFilterFormFactory->create($this->dateFrom, $this->dateTo);
+        $form->onSuccess[] = function ($form, $values) {
+            $this->dateFrom = $values['date_from'];
+            $this->dateTo = $values['date_to'];
+            $this->redirect($this->action);
+        };
+        return $form;
     }
 
     protected function createComponentOnboardingGoalForm()
@@ -91,5 +125,24 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         };
 
         return $form;
+    }
+
+    public function createComponentGoogleGoalCompletionCountGraph(GoogleBarGraphGroupControlFactoryInterface $factory)
+    {
+        $graphDataItem = new GraphDataItem();
+        $graphDataItem->setCriteria((new Criteria())
+            ->setTableName('user_onboarding_goals')
+            ->setTimeField('created_at')
+            ->setWhere('AND onboarding_goal_id=' . (int) $this->params['id'])
+            ->setValueField('COUNT(*)')
+            ->setStart(DateTime::from($this->dateFrom))
+            ->setEnd(DateTime::from($this->dateTo)));
+
+        $control = $factory->create();
+        $control->setGraphTitle($this->translator->translate('onboarding.admin.onboarding_goals.show.completion_graph_title'))
+            ->setGraphHelp($this->translator->translate('onboarding.admin.onboarding_goals.show.completion_graph_help'))
+            ->addGraphDataItem($graphDataItem);
+
+        return $control;
     }
 }

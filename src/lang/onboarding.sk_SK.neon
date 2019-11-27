@@ -24,6 +24,8 @@ admin:
 		show:
 			edit: Upraviť
 			back: Späť
+			completion_graph_title: Počet dokončení cieľa
+			completion_graph_help: Počet dokončení cieľa za definované časové obdobie
 		messages:
 			goal_created: Cieľ vytvorený
 			goal_updated: Cieľ aktualizovaný
