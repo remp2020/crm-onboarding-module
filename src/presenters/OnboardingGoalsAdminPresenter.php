@@ -2,7 +2,6 @@
 
 namespace Crm\OnboardingModule\Presenters;
 
-use Crm\AdminModule\Components\DateFilterFormFactory;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\ActiveRow;
 use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroupControlFactoryInterface;
