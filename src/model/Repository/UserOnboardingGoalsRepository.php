@@ -69,7 +69,7 @@ class UserOnboardingGoalsRepository extends Repository
     }
 
     /**
-     * Returns distribution between 'days_from_registration_range' and 'had_subscription' for users who completed given goal
+     * Returns distribution between 'days_from_registration_range' and 'had_subscription' for users who completed the given goal
      *
      * Columns in results:
      * 'days_from_registration_range' specifies how long it took user to finish goal after his/her registration.
@@ -78,13 +78,12 @@ class UserOnboardingGoalsRepository extends Repository
      *
      * @param $onboardingGoalId int|string Distribution is computed for given onboarding goal ID.
      *
-     * @return array|\Nette\Database\IRow[]
+     * @return array|\Nette\Database\IRow[]|\Nette\Database\ResultSet
      */
     public function userRegistrationAndSubscriptionOwnershipDistributionForGoal($onboardingGoalId)
     {
         $sql=<<<SQL
-SELECT 
-CASE 
+SELECT CASE 
   WHEN days_from_registration < 1 THEN "0"
   WHEN days_from_registration = 1 THEN "1"
   WHEN days_from_registration = 2 THEN "2"
@@ -105,6 +104,46 @@ FROM
     ON users.id = t.user_id
     GROUP BY days_from_registration, had_subscription) tt
 GROUP BY days_from_registration_range, had_subscription
+SQL;
+        return $this->getDatabase()->query($sql, $onboardingGoalId)->fetchAll();
+    }
+
+    /**
+     * Returns distribution of 'first_payment_in_days_range' (after goal completion) for non-subscribers who completed the given goal
+     *
+     * Columns in results:
+     * 'first_payment_in_days_range' specifies how long it took user to make first payment after goal was finished
+     * 'total' specifies how many users belong to that particular group.
+     *
+     * @param $onboardingGoalId int|string Distribution is computed for given onboarding goal ID.
+     *
+     * @return array|\Nette\Database\IRow[]|\Nette\Database\ResultSet
+     */
+    public function nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($onboardingGoalId)
+    {
+        $sql=<<<SQL
+SELECT CASE 
+  WHEN first_payment_in_days IS NULL THEN "-"
+  WHEN first_payment_in_days < 1 THEN "0"
+  WHEN first_payment_in_days = 1 THEN "1"
+  WHEN first_payment_in_days = 2 THEN "2"
+  WHEN first_payment_in_days < 7 THEN "3-6"
+  WHEN first_payment_in_days < 31 THEN "7-30"
+  ELSE "31+"
+END AS first_payment_in_days_range, COUNT(user_id) AS total FROM
+    (SELECT t.user_id, MIN(TIMESTAMPDIFF(DAY, t.completed_at, p.paid_at)) AS first_payment_in_days FROM 
+        (SELECT uog.user_id, uog.created_at AS completed_at
+        FROM user_onboarding_goals uog 
+        LEFT JOIN subscriptions s 
+        ON (uog.user_id = s.user_id AND uog.created_at >= s.start_time AND uog.created_at <= end_time)
+        WHERE uog.onboarding_goal_id = ?
+        GROUP BY uog.user_id, completed_at 
+        HAVING COUNT(s.id)=0) t 
+    LEFT JOIN payments p ON t.user_id = p.user_id 
+    AND p.subscription_id IS NOT NULL
+    AND p.paid_at > t.completed_at
+    GROUP BY t.user_id) tt
+GROUP BY first_payment_in_days_range
 SQL;
         return $this->getDatabase()->query($sql, $onboardingGoalId)->fetchAll();
     }

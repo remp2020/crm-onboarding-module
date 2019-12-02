@@ -5,6 +5,7 @@ namespace Crm\OnboardingModule\Presenters;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\ActiveRow;
 use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroupControlFactoryInterface;
+use Crm\ApplicationModule\Components\Graphs\GoogleSankeyGraphGroupControlFactoryInterface;
 use Crm\ApplicationModule\Components\VisualPaginator;
 use Crm\ApplicationModule\Graphs\Criteria;
 use Crm\ApplicationModule\Graphs\GraphDataItem;
@@ -86,7 +87,6 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
             $this->redirect('default');
         }
 
-
         $this->goalId = $goal->id;
         $this->template->goal = $goal;
         $this->template->dateFrom = $this->dateFrom;
@@ -132,5 +132,50 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
             ->addGraphDataItem($graphDataItem);
 
         return $control;
+    }
+
+    public function createComponentGoogleSankeyDistributionGraph(GoogleSankeyGraphGroupControlFactoryInterface $factory)
+    {
+        $goalId = (int) $this->params['id'];
+
+        $graphRows = [];
+
+        $subscriberCaption = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.was_subscriber');
+        $nonSubscriberCaption = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.was_non_subscriber');
+
+        $distribution1 = $this->userOnboardingGoalsRepository->userRegistrationAndSubscriptionOwnershipDistributionForGoal($goalId);
+        foreach ($distribution1 as $row) {
+            $text = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.goal_completed_since', ['count' => $row->days_from_registration_range]);
+
+            $graphRows[] = [
+                $text,
+                $row->had_subscription ? $subscriberCaption : $nonSubscriberCaption,
+                (int) $row->total
+            ];
+        }
+
+        $distribution2 = $this->userOnboardingGoalsRepository->nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($goalId);
+        foreach ($distribution2 as $row) {
+            $text = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.first_payment_in_days', ['count' => $row->first_payment_in_days_range]);
+            $neverPaidText =  $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.never_paid');
+
+            $graphRows[] = [
+                $nonSubscriberCaption,
+                $row->first_payment_in_days_range === '-' ? $neverPaidText : $text,
+                (int) $row->total
+            ];
+        }
+
+        $graph = $factory->create();
+        $graph->setGraphHelp($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.help'));
+        $graph->setGraphTitle($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.title'));
+        $graph->setRows($graphRows);
+        $graph->setColumnNames(
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.from'),
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.to'),
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.users_count')
+        );
+
+        return $graph;
     }
 }

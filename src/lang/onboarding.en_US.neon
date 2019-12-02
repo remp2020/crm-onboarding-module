@@ -26,6 +26,17 @@ admin:
 			back: Back
 			completion_graph_title: Goal completition count
 			completion_graph_help: Count of how many subscribers have completed particular goal within selected time interval
+			flow_graph:
+				title: Users actions related to goal completion
+				help: Graph shows how long it took users to complete the goal from user registration and how long it took for non-subscribers to purchase a subscription after the goal was completed.
+				from: from
+				to: to
+				users_count: Users count
+				never_paid: Never paid
+				first_payment_in_days: "First payment in %s day(s)"
+				goal_completed_since: "Goal completed %s day(s) since registration"
+				was_subscriber: Was subscriber
+				was_non_subscriber: Was non-subscriber
 		messages:
 			goal_created: Goal created
 			goal_updated: Goal updated

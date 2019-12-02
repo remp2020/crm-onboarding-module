@@ -26,6 +26,17 @@ admin:
 			back: Zpět
 			completion_graph_title: Počet dokončení cíle
 			completion_graph_help: Počet dokončení cíle za definované časové období
+			flow_graph:
+				title: Registrace a platba uživatelů před a po splnění cíle
+				help: "Graf ukazuje, jak dlouho trvalo uživatelům dokončení cíle od registrace a jak dlouho trvalo, než si zakoupili předplatné po dokončení cíle."
+				from: od
+				to: do
+				users_count: Počet uživatelů
+				never_paid: Nikdy nezakoupené předplatné
+				first_payment_in_days: "První platba %s den po splnění"
+				goal_completed_since: "Cíl splněn %s deň od registrace"
+				was_subscriber: Byl předplatitel
+				was_non_subscriber: Nebyl předplatitel
 		messages:
 			goal_created: Cíl vytvořen
 			goal_updated: Cíl aktualizován
