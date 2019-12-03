@@ -11,32 +11,57 @@ class UserOnboardingGoalsRepository extends Repository
 {
     protected $tableName = 'user_onboarding_goals';
 
-    public function all($userId = null, ?bool $done = null): Selection
+    public function all($userId = null, bool $onlyCompleted = false): Selection
     {
         $where = [];
 
         if ($userId) {
             $where['user_id'] = $userId;
         }
-        if ($done !== null) {
-            $where['done'] = $done;
-        }
 
-        return $this->getTable()
+        $q = $this->getTable()
             ->where($where)
             ->order('created_at DESC');
+
+        if ($onlyCompleted) {
+            $q->where('completed_at IS NOT NULL');
+        }
+
+        return $q;
     }
 
-    public function add($userId, $onboardingGoalId, bool $done = false)
+    public function add($userId, $onboardingGoalId, $completedAt = null)
     {
         $data = [
             'user_id' => $userId,
             'onboarding_goal_id' => $onboardingGoalId,
-            'done' => $done,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ];
+
+        if ($completedAt) {
+            $data['completed_at'] = $completedAt;
+        }
+
         return $this->insert($data);
+    }
+
+    public function complete($userId, $onboardingGoalId, $completedAt = null)
+    {
+        $goal = $this->getTable()->where([
+            'user_id' => $userId,
+            'onboarding_goal_id' => $onboardingGoalId
+        ])->fetch();
+
+        if (!$completedAt) {
+            $completedAt = new DateTime();
+        }
+
+        if (!$goal) {
+            return $this->add($userId, $onboardingGoalId, $completedAt);
+        }
+
+        return $this->update($goal, ['completed_at' => $completedAt]);
     }
 
     public function completedGoalsCountSince(\DateTime $from): array
@@ -44,22 +69,9 @@ class UserOnboardingGoalsRepository extends Repository
         return $this->getTable()
         ->group('onboarding_goal_id')
         ->where('created_at >= ?', $from)
+        ->where('completed_at IS NOT NULL')
         ->select('COUNT(*) AS total, onboarding_goal_id')
         ->fetchPairs('onboarding_goal_id', 'total');
-    }
-
-    public function complete($userId, $onboardingGoalId)
-    {
-        $goal = $this->getTable()->where([
-            'user_id' => $userId,
-            'onboarding_goal_id' => $onboardingGoalId
-        ])->fetch();
-
-        if (!$goal) {
-            return $this->add($userId, $onboardingGoalId, true);
-        }
-
-        return $this->update($goal, ['done' => true]);
     }
 
     public function update(IRow &$row, $data)
@@ -95,12 +107,12 @@ FROM
     (SELECT TIMESTAMPDIFF(DAY, users.created_at, t.completed_at) days_from_registration, t.had_subscription, count(*) AS total 
     FROM users 
     JOIN 
-        (SELECT uog.user_id, uog.created_at AS completed_at, CASE WHEN COUNT(s.id) > 0 THEN 1 ELSE 0 END AS had_subscription 
+        (SELECT uog.user_id, uog.completed_at, CASE WHEN COUNT(s.id) > 0 THEN 1 ELSE 0 END AS had_subscription 
         FROM user_onboarding_goals uog 
         LEFT JOIN subscriptions s 
-        ON (uog.user_id = s.user_id AND uog.created_at >= s.start_time AND uog.created_at <= end_time)
-        WHERE uog.onboarding_goal_id = ?
-        GROUP BY uog.user_id, completed_at) t 
+        ON (uog.user_id = s.user_id AND uog.completed_at >= s.start_time AND uog.completed_at <= end_time)
+        WHERE uog.onboarding_goal_id = ? and uog.completed_at IS NOT NULL
+        GROUP BY uog.user_id, uog.completed_at) t 
     ON users.id = t.user_id
     GROUP BY days_from_registration, had_subscription) tt
 GROUP BY days_from_registration_range, had_subscription
@@ -132,12 +144,12 @@ SELECT CASE
   ELSE "31+"
 END AS first_payment_in_days_range, COUNT(user_id) AS total FROM
     (SELECT t.user_id, MIN(TIMESTAMPDIFF(DAY, t.completed_at, p.paid_at)) AS first_payment_in_days FROM 
-        (SELECT uog.user_id, uog.created_at AS completed_at
+        (SELECT uog.user_id, uog.completed_at
         FROM user_onboarding_goals uog 
         LEFT JOIN subscriptions s 
-        ON (uog.user_id = s.user_id AND uog.created_at >= s.start_time AND uog.created_at <= end_time)
-        WHERE uog.onboarding_goal_id = ?
-        GROUP BY uog.user_id, completed_at 
+        ON (uog.user_id = s.user_id AND uog.completed_at >= s.start_time AND uog.completed_at <= end_time)
+        WHERE uog.onboarding_goal_id = ? and uog.completed_at IS NOT NULL
+        GROUP BY uog.user_id, uog.completed_at 
         HAVING COUNT(s.id)=0) t 
     LEFT JOIN payments p ON t.user_id = p.user_id 
     AND p.subscription_id IS NOT NULL

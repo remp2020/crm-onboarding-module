@@ -15,7 +15,7 @@ class OnboardingProgress extends Control implements WidgetInterface
 
     private $translator;
 
-    private $doneCount;
+    private $completedCount;
 
     private $onboardingGoalsRepository;
 
@@ -40,7 +40,7 @@ class OnboardingProgress extends Control implements WidgetInterface
     {
         $header = $this->translator->translate('onboarding.component.onboarding_progress.header');
         if ($id) {
-            $header .= ' <small>(' . $this->doneCount($id) . ')</small>';
+            $header .= ' <small>(' . $this->completedCount($id) . ')</small>';
         }
         return $header;
     }
@@ -50,12 +50,12 @@ class OnboardingProgress extends Control implements WidgetInterface
         return 'onboardingprogress';
     }
 
-    private function doneCount($id)
+    private function completedCount($id)
     {
-        if ($this->doneCount == null) {
-            $this->doneCount = count($this->userOnboardingGoalsRepository->all($id, true));
+        if ($this->completedCount == null) {
+            $this->completedCount = count($this->userOnboardingGoalsRepository->all($id, true));
         }
-        return $this->doneCount;
+        return $this->completedCount;
     }
 
     public function render($id)

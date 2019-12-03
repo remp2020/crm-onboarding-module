@@ -14,10 +14,15 @@ class OnboardingGoalsRepository extends Repository
 
     // TODO: add segment goal type (user completes goal when he appears in segment)
 
-    public function add($data)
+    public function add($code, $name, $type)
     {
-        $data['created_at'] = new DateTime();
-        $data['updated_at'] = new DateTime();
+        $data = [
+            'code' => $code,
+            'name' => $name,
+            'type' => $type,
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime(),
+        ];
         return $this->insert($data);
     }
 
