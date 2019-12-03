@@ -134,10 +134,9 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         return $control;
     }
 
-    public function createComponentGoogleSankeyDistributionGraph(GoogleSankeyGraphGroupControlFactoryInterface $factory)
+    public function createComponentRegistrationToGoalDistributionGraph(GoogleSankeyGraphGroupControlFactoryInterface $factory)
     {
         $goalId = (int) $this->params['id'];
-
         $graphRows = [];
 
         $subscriberCaption = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.was_subscriber');
@@ -154,6 +153,25 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
             ];
         }
 
+        $graph = $factory->create();
+        $graph->setGraphHelp($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.help_registration'));
+        $graph->setGraphTitle($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.title_registration'));
+        $graph->setRows($graphRows);
+        $graph->setColumnNames(
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.from'),
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.to'),
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.users_count')
+        );
+        return $graph;
+    }
+
+    public function createComponentUnsubscribersToPaymentDistributionGraph(GoogleSankeyGraphGroupControlFactoryInterface $factory)
+    {
+        $goalId = (int) $this->params['id'];
+
+        $graphRows = [];
+        $nonSubscriberCaption = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.was_non_subscriber');
+
         $distribution2 = $this->userOnboardingGoalsRepository->nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($goalId);
         foreach ($distribution2 as $row) {
             $text = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.first_payment_in_days', ['count' => $row->first_payment_in_days_range]);
@@ -167,8 +185,8 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         }
 
         $graph = $factory->create();
-        $graph->setGraphHelp($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.help'));
-        $graph->setGraphTitle($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.title'));
+        $graph->setGraphHelp($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.help_first_payment'));
+        $graph->setGraphTitle($this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.title_first_payment'));
         $graph->setRows($graphRows);
         $graph->setColumnNames(
             $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.from'),

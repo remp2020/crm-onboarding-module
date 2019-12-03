@@ -34,14 +34,19 @@
             </li>
         </ul>
     </div>
-
-    <div class="col-md-6">
-        {control googleSankeyDistributionGraph, 'id' => $goal->id}
-    </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
         {control googleGoalCompletionCountGraph, 'id' => $goal->id}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {control registrationToGoalDistributionGraph, 'id' => $goal->id}
+    </div>
+    <div class="col-md-6">
+        {control unsubscribersToPaymentDistributionGraph, 'id' => $goal->id}
     </div>
 </div>
