@@ -165,7 +165,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         return $graph;
     }
 
-    public function createComponentUnsubscribersToPaymentDistributionGraph(GoogleSankeyGraphGroupControlFactoryInterface $factory)
+    public function createComponentNonsubscribersToPaymentDistributionGraph(GoogleSankeyGraphGroupControlFactoryInterface $factory)
     {
         $goalId = (int) $this->params['id'];
 
