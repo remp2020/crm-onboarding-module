@@ -64,6 +64,14 @@ class UserOnboardingGoalsRepository extends Repository
         return $this->update($goal, ['completed_at' => $completedAt]);
     }
 
+    public function userCompletedGoals($userId, array $onboardingGoalIds): Selection
+    {
+        return $this->getTable()
+            ->where(['user_id' => $userId])
+            ->where('completed_at IS NOT NULL')
+            ->where('onboarding_goal_id IN (?)', $onboardingGoalIds);
+    }
+
     public function completedGoalsCountSince(\DateTime $from): array
     {
         return $this->getTable()
