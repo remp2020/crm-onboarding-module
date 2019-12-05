@@ -30,7 +30,7 @@ class UserOnboardingGoalsRepository extends Repository
         return $q;
     }
 
-    public function add($userId, $onboardingGoalId, $completedAt = null)
+    public function add($userId, $onboardingGoalId, ?\DateTime $completedAt = null)
     {
         $data = [
             'user_id' => $userId,
