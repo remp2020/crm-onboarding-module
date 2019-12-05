@@ -96,12 +96,12 @@ class UserOnboardingGoalsRepository extends Repository
     {
         $sql=<<<SQL
 SELECT CASE 
-  WHEN days_from_registration < 1 THEN "0"
-  WHEN days_from_registration = 1 THEN "1"
-  WHEN days_from_registration = 2 THEN "2"
-  WHEN days_from_registration < 7 THEN "3-6"
-  WHEN days_from_registration < 31 THEN "7-30"
-  ELSE "31+"
+  WHEN days_from_registration < 1 THEN '0'
+  WHEN days_from_registration = 1 THEN '1'
+  WHEN days_from_registration = 2 THEN '2'
+  WHEN days_from_registration < 7 THEN '3-6'
+  WHEN days_from_registration < 31 THEN '7-30'
+  ELSE '31+'
 END AS days_from_registration_range, tt. had_subscription, SUM(tt.total) AS total 
 FROM 
     (SELECT TIMESTAMPDIFF(DAY, users.created_at, t.completed_at) days_from_registration, t.had_subscription, count(*) AS total 
@@ -135,13 +135,13 @@ SQL;
     {
         $sql=<<<SQL
 SELECT CASE 
-  WHEN first_payment_in_days IS NULL THEN "-"
-  WHEN first_payment_in_days < 1 THEN "0"
-  WHEN first_payment_in_days = 1 THEN "1"
-  WHEN first_payment_in_days = 2 THEN "2"
-  WHEN first_payment_in_days < 7 THEN "3-6"
-  WHEN first_payment_in_days < 31 THEN "7-30"
-  ELSE "31+"
+  WHEN first_payment_in_days IS NULL THEN '-'
+  WHEN first_payment_in_days < 1 THEN '0'
+  WHEN first_payment_in_days = 1 THEN '1'
+  WHEN first_payment_in_days = 2 THEN '2'
+  WHEN first_payment_in_days < 7 THEN '3-6'
+  WHEN first_payment_in_days < 31 THEN '7-30'
+  ELSE '31+'
 END AS first_payment_in_days_range, COUNT(user_id) AS total FROM
     (SELECT t.user_id, MIN(TIMESTAMPDIFF(DAY, t.completed_at, p.paid_at)) AS first_payment_in_days FROM 
         (SELECT uog.user_id, uog.completed_at
