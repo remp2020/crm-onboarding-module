@@ -142,8 +142,8 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $subscriberCaption = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.was_subscriber');
         $nonSubscriberCaption = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.was_non_subscriber');
 
-        $distribution1 = $this->userOnboardingGoalsRepository->userRegistrationAndSubscriptionOwnershipDistributionForGoal($goalId);
-        foreach ($distribution1 as $row) {
+        $distribution = $this->userOnboardingGoalsRepository->userRegistrationAndSubscriptionOwnershipDistributionForGoal($goalId);
+        foreach ($distribution as $row) {
             $text = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.goal_completed_since', ['count' => $row->days_from_registration_range]);
 
             $graphRows[] = [
@@ -172,8 +172,8 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $graphRows = [];
         $nonSubscriberCaption = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.was_non_subscriber');
 
-        $distribution2 = $this->userOnboardingGoalsRepository->nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($goalId);
-        foreach ($distribution2 as $row) {
+        $distribution = $this->userOnboardingGoalsRepository->nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($goalId);
+        foreach ($distribution as $row) {
             $text = $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.first_payment_in_days', ['count' => $row->first_payment_in_days_range]);
             $neverPaidText =  $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.never_paid');
 
