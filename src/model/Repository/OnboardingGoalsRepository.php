@@ -14,7 +14,7 @@ class OnboardingGoalsRepository extends Repository
 
     // TODO: add segment goal type (user completes goal when he appears in segment)
 
-    public function add($code, $name, $type)
+    final public function add($code, $name, $type)
     {
         $data = [
             'code' => $code,
@@ -26,18 +26,18 @@ class OnboardingGoalsRepository extends Repository
         return $this->insert($data);
     }
 
-    public function update(IRow &$row, $data)
+    final public function update(IRow &$row, $data)
     {
         $data['updated_at'] = new DateTime();
         return parent::update($row, $data);
     }
 
-    public function all()
+    final public function all()
     {
         return $this->getTable()->order('created_at DESC');
     }
 
-    public static function availableTypes()
+    final public static function availableTypes()
     {
         return [OnboardingGoalsRepository::TYPE_SIMPLE];
     }

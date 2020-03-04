@@ -11,7 +11,7 @@ class UserOnboardingGoalsRepository extends Repository
 {
     protected $tableName = 'user_onboarding_goals';
 
-    public function all($userId = null, bool $onlyCompleted = false): Selection
+    final public function all($userId = null, bool $onlyCompleted = false): Selection
     {
         $where = [];
 
@@ -30,7 +30,7 @@ class UserOnboardingGoalsRepository extends Repository
         return $q;
     }
 
-    public function add($userId, $onboardingGoalId, ?\DateTime $completedAt = null)
+    final public function add($userId, $onboardingGoalId, ?\DateTime $completedAt = null)
     {
         $data = [
             'user_id' => $userId,
@@ -46,7 +46,7 @@ class UserOnboardingGoalsRepository extends Repository
         return $this->insert($data);
     }
 
-    public function complete($userId, $onboardingGoalId, $completedAt = null)
+    final public function complete($userId, $onboardingGoalId, $completedAt = null)
     {
         $goal = $this->getTable()->where([
             'user_id' => $userId,
@@ -64,7 +64,7 @@ class UserOnboardingGoalsRepository extends Repository
         return $this->update($goal, ['completed_at' => $completedAt]);
     }
 
-    public function userCompletedGoals($userId, array $onboardingGoalIds): Selection
+    final public function userCompletedGoals($userId, array $onboardingGoalIds): Selection
     {
         return $this->getTable()
             ->where(['user_id' => $userId])
@@ -72,7 +72,7 @@ class UserOnboardingGoalsRepository extends Repository
             ->where('onboarding_goal_id IN (?)', $onboardingGoalIds);
     }
 
-    public function completedGoalsCountSince(\DateTime $from): array
+    final public function completedGoalsCountSince(\DateTime $from): array
     {
         return $this->getTable()
             ->select('COUNT(*) AS total, onboarding_goal_id')
@@ -82,7 +82,7 @@ class UserOnboardingGoalsRepository extends Repository
             ->fetchPairs('onboarding_goal_id', 'total');
     }
 
-    public function update(IRow &$row, $data)
+    final public function update(IRow &$row, $data)
     {
         $data['updated_at'] = new DateTime();
         return parent::update($row, $data);
@@ -100,7 +100,7 @@ class UserOnboardingGoalsRepository extends Repository
      *
      * @return array|\Nette\Database\IRow[]|\Nette\Database\ResultSet
      */
-    public function userRegistrationAndSubscriptionOwnershipDistributionForGoal($onboardingGoalId)
+    final public function userRegistrationAndSubscriptionOwnershipDistributionForGoal($onboardingGoalId)
     {
         $sql=<<<SQL
 SELECT CASE 
@@ -139,7 +139,7 @@ SQL;
      *
      * @return array|\Nette\Database\IRow[]|\Nette\Database\ResultSet
      */
-    public function nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($onboardingGoalId)
+    final public function nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($onboardingGoalId)
     {
         $sql=<<<SQL
 SELECT CASE 
