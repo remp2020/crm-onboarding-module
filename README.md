@@ -11,9 +11,9 @@ Once the goal is defined, head to the Scenario builder and create a scenario inc
 <details>
 <summary>Preview</summary>
 
-![Scenario goals overview](./src/docs/scenario_goals.png)
+![Scenario goals overview](docs/scenario_goals.png)
 
-![Scenario goal configuration](./src/docs/scenario_goal_config.png)
+![Scenario goal configuration](docs/scenario_goal_config.png)
 
 </details>
 
