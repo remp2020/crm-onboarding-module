@@ -193,7 +193,8 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
             $user,
             SubscriptionsRepository::TYPE_REGULAR,
             new DateTime($startDateString),
-            new DateTime($endDateString)
+            new DateTime($endDateString),
+            true
         ), 1);
     }
 
