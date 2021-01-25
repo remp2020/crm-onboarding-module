@@ -10,9 +10,11 @@ use Crm\ApplicationModule\Criteria\ScenariosCriteriaStorage;
 use Crm\ApplicationModule\CrmModule;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
+use Crm\ApplicationModule\SeederManager;
 use Crm\ApplicationModule\Widget\WidgetManagerInterface;
 use Crm\OnboardingModule\Components\OnboardingProgress;
 use Crm\OnboardingModule\Scenarios\OnboardingGoalCompletedCriteria;
+use Crm\OnboardingModule\Seeders\SegmentsSeeder;
 
 class OnboardingModule extends CrmModule
 {
@@ -46,6 +48,11 @@ class OnboardingModule extends CrmModule
             OnboardingGoalCompletedCriteria::KEY,
             $this->getInstance(OnboardingGoalCompletedCriteria::class)
         );
+    }
+
+    public function registerSeeders(SeederManager $seederManager)
+    {
+        $seederManager->addSeeder($this->getInstance(SegmentsSeeder::class));
     }
 
     public function registerWidgets(WidgetManagerInterface $widgetManager)
