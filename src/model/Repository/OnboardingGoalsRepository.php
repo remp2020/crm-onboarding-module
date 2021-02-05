@@ -3,14 +3,28 @@
 namespace Crm\OnboardingModule\Repository;
 
 use Crm\ApplicationModule\Repository;
+use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
+use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
+use League\Event\Emitter;
+use Nette\Database\Context;
 use Nette\Database\Table\IRow;
 use Nette\Utils\DateTime;
 
 class OnboardingGoalsRepository extends Repository
 {
+    public const TYPE_SIMPLE = 'simple';
+
     protected $tableName = 'onboarding_goals';
 
-    const TYPE_SIMPLE = 'simple';
+    private $emitter;
+
+    public function __construct(
+        Context $database,
+        Emitter $emitter
+    ) {
+        parent::__construct($database);
+        $this->emitter = $emitter;
+    }
 
     // TODO: add segment goal type (user completes goal when he appears in segment)
 
@@ -23,13 +37,20 @@ class OnboardingGoalsRepository extends Repository
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ];
-        return $this->insert($data);
+        $onboardingGoal = $this->insert($data);
+        $this->emitter->emit(new OnboardingGoalCreatedEvent($onboardingGoal));
+        return $onboardingGoal;
     }
 
     final public function update(IRow &$row, $data)
     {
+        $originalCode = $row['code'];
+
         $data['updated_at'] = new DateTime();
-        return parent::update($row, $data);
+        $updated = parent::update($row, $data);
+
+        $this->emitter->emit(new OnboardingGoalUpdatedEvent($originalCode, $row));
+        return $updated;
     }
 
     final public function all()

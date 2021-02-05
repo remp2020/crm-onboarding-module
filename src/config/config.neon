@@ -9,6 +9,8 @@ services:
 	- Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler
 	- Crm\OnboardingModule\Api\OnboardingGoalsListHandler
 	- Crm\OnboardingModule\Components\OnboardingProgress
+	- Crm\OnboardingModule\Events\OnboardingGoalCreatedEventHandler
+	- Crm\OnboardingModule\Events\OnboardingGoalUpdatedEventHandler
 	- Crm\OnboardingModule\Forms\OnboardingGoalFormFactory
 	- Crm\OnboardingModule\Scenarios\OnboardingGoalCompletedCriteria
 	- Crm\OnboardingModule\Seeders\SegmentsSeeder
