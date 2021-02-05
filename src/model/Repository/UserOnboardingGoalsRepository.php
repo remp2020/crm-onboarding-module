@@ -30,7 +30,7 @@ class UserOnboardingGoalsRepository extends Repository
         return $q;
     }
 
-    final public function add($userId, $onboardingGoalId, ?\DateTime $completedAt = null)
+    final public function add($userId, $onboardingGoalId, ?DateTime $completedAt = null, ?DateTime $timedoutAt = null)
     {
         $data = [
             'user_id' => $userId,
@@ -43,6 +43,10 @@ class UserOnboardingGoalsRepository extends Repository
             $data['completed_at'] = $completedAt;
         }
 
+        if ($timedoutAt) {
+            $data['timedout_at'] = $timedoutAt;
+        }
+
         return $this->insert($data);
     }
 
@@ -50,7 +54,7 @@ class UserOnboardingGoalsRepository extends Repository
     {
         $goal = $this->getTable()->where([
             'user_id' => $userId,
-            'onboarding_goal_id' => $onboardingGoalId
+            'onboarding_goal_id' => $onboardingGoalId,
         ])->fetch();
 
         if (!$completedAt) {
@@ -61,7 +65,35 @@ class UserOnboardingGoalsRepository extends Repository
             return $this->add($userId, $onboardingGoalId, $completedAt);
         }
 
+        // do not complete timed out goal
+        if ($goal->timedout_at !== null) {
+            return false;
+        }
+
         return $this->update($goal, ['completed_at' => $completedAt]);
+    }
+
+    final public function timeout($userId, $onboardingGoalId, $timedoutAt = null)
+    {
+        $goal = $this->getTable()->where([
+            'user_id' => $userId,
+            'onboarding_goal_id' => $onboardingGoalId,
+        ])->fetch();
+
+        if (!$timedoutAt) {
+            $timedoutAt = new DateTime();
+        }
+
+        if (!$goal) {
+            return $this->add($userId, $onboardingGoalId, null, $timedoutAt);
+        }
+
+        // do not timeout completed goal
+        if ($goal->completed_at !== null) {
+            return false;
+        }
+
+        return $this->update($goal, ['timedout_at' => $timedoutAt]);
     }
 
     final public function userCompletedGoals($userId, array $onboardingGoalIds): Selection
