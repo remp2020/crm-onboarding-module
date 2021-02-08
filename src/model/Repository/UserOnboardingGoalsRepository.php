@@ -3,6 +3,7 @@
 namespace Crm\OnboardingModule\Repository;
 
 use Crm\ApplicationModule\Repository;
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\IRow;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
@@ -94,6 +95,15 @@ class UserOnboardingGoalsRepository extends Repository
         }
 
         return $this->update($goal, ['timedout_at' => $timedoutAt]);
+    }
+
+    final public function userGoal(int $userId, int $onboardingGoalId): ?ActiveRow
+    {
+        $userGoal = $this->getTable()
+            ->where(['user_id' => $userId])
+            ->where('onboarding_goal_id = ?', $onboardingGoalId)
+            ->fetch();
+        return $userGoal ?: null;
     }
 
     final public function userCompletedGoals($userId, array $onboardingGoalIds): Selection
