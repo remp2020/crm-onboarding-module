@@ -31,8 +31,24 @@ class UserOnboardingGoalsRepository extends Repository
         return $q;
     }
 
-    final public function add($userId, $onboardingGoalId, ?DateTime $completedAt = null, ?DateTime $timedoutAt = null)
+    final public function add(int $userId, int $onboardingGoalId, ?DateTime $completedAt = null, ?DateTime $timedoutAt = null)
     {
+        // do not allow to create more than one not-completed / not-timed-out entries
+        $userOnboardingGoal = $this->userActiveOnboardingGoal($userId, $onboardingGoalId);
+        if ($userOnboardingGoal !== null) {
+            $data = [];
+            if ($completedAt) {
+                $data['completed_at'] = $completedAt;
+            }
+
+            if ($timedoutAt) {
+                $data['timedout_at'] = $timedoutAt;
+            }
+            $this->update($userOnboardingGoal, $data);
+            return $userOnboardingGoal;
+        }
+
+        // no active entry; insert
         $data = [
             'user_id' => $userId,
             'onboarding_goal_id' => $onboardingGoalId,
@@ -53,60 +69,81 @@ class UserOnboardingGoalsRepository extends Repository
 
     final public function complete($userId, $onboardingGoalId, $completedAt = null)
     {
-        $goal = $this->getTable()->where([
-            'user_id' => $userId,
-            'onboarding_goal_id' => $onboardingGoalId,
-        ])->fetch();
-
         if (!$completedAt) {
             $completedAt = new DateTime();
         }
 
-        if (!$goal) {
+        $userOnboardingGoal = $this->userActiveOnboardingGoal($userId, $onboardingGoalId);
+
+        if ($userOnboardingGoal === null) {
             return $this->add($userId, $onboardingGoalId, $completedAt);
         }
 
         // do not complete timed out goal
-        if ($goal->timedout_at !== null) {
+        if ($userOnboardingGoal->timedout_at !== null) {
             return false;
         }
 
-        return $this->update($goal, ['completed_at' => $completedAt]);
+        return $this->update($userOnboardingGoal, ['completed_at' => $completedAt]);
     }
 
     final public function timeout($userId, $onboardingGoalId, $timedoutAt = null)
     {
-        $goal = $this->getTable()->where([
-            'user_id' => $userId,
-            'onboarding_goal_id' => $onboardingGoalId,
-        ])->fetch();
-
         if (!$timedoutAt) {
             $timedoutAt = new DateTime();
         }
 
-        if (!$goal) {
+        $userOnboardingGoal = $this->userActiveOnboardingGoal($userId, $onboardingGoalId);
+
+        if ($userOnboardingGoal === null) {
             return $this->add($userId, $onboardingGoalId, null, $timedoutAt);
         }
 
         // do not timeout completed goal
-        if ($goal->completed_at !== null) {
+        if ($userOnboardingGoal->completed_at !== null) {
             return false;
         }
 
-        return $this->update($goal, ['timedout_at' => $timedoutAt]);
+        return $this->update($userOnboardingGoal, ['timedout_at' => $timedoutAt]);
     }
 
-    final public function userGoal(int $userId, int $onboardingGoalId): ?ActiveRow
+    /**
+     * @throws UserOnboardingGoalsRepositoryDuplicateException
+     */
+    final public function userActiveOnboardingGoal(int $userId, int $onboardingGoalId): ?ActiveRow
     {
-        $userGoal = $this->getTable()
+        $userOnboardingGoals = $this->getTable()->where([
+            'user_id' => $userId,
+            'onboarding_goal_id' => $onboardingGoalId,
+            'completed_at IS NULL',
+            'timedout_at IS NULL',
+        ])->fetchAll();
+
+        // too many active entries
+        if (count($userOnboardingGoals) > 1) {
+            throw new UserOnboardingGoalsRepositoryDuplicateException(
+                "User [{$userId}] has more active entries for onboarding goal [{$onboardingGoalId}]."
+            );
+        }
+
+        if (count($userOnboardingGoals) === 0) {
+            return null;
+        }
+
+        return reset($userOnboardingGoals);
+    }
+
+    final public function userLastGoal(int $userId, int $onboardingGoalId): ?ActiveRow
+    {
+        $lastUserGoal = $this->getTable()
             ->where(['user_id' => $userId])
             ->where('onboarding_goal_id = ?', $onboardingGoalId)
+            ->order('created_at DESC')
             ->fetch();
-        return $userGoal ?: null;
+        return $lastUserGoal ?: null;
     }
 
-    final public function userCompletedGoals($userId, array $onboardingGoalIds): Selection
+    final public function userCompletedGoals(int $userId, array $onboardingGoalIds): Selection
     {
         return $this->getTable()
             ->where(['user_id' => $userId])
