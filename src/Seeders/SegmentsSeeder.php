@@ -14,6 +14,8 @@ class SegmentsSeeder implements ISeeder
 {
     use SegmentsTrait;
 
+    public const ONBOARDING_GOAL_GROUP_CODE = 'onboarding';
+
     private $onboardingGoalsRepository;
 
     private $segmentGroupsRepository;
@@ -35,28 +37,40 @@ class SegmentsSeeder implements ISeeder
         $onboardingSegmentsGroup = $this->seedSegmentGroup(
             $output,
             'Onboarding',
-            'onboarding',
+            self::ONBOARDING_GOAL_GROUP_CODE,
             1300
         );
 
         foreach ($this->onboardingGoalsRepository->all() as $onboardingGoal) {
-            $segmentCode = 'onboarding_' . $onboardingGoal->code;
-            $segmentName = 'Onboarding: ' . $onboardingGoal->name;
-            $segmentQuery = $this->generateGoalSegmentQuery($onboardingGoal);
+            $segmentProperties = self::generateOnboardingGoalSegmentProperties($onboardingGoal);
 
             $this->seedOrUpdateSegment(
                 $output,
-                $segmentName,
-                $segmentCode,
-                $segmentQuery,
+                $segmentProperties['name'],
+                $segmentProperties['code'],
+                $segmentProperties['query_string'],
                 $onboardingSegmentsGroup
             );
         }
     }
 
-    public function generateGoalSegmentQuery(ActiveRow $onboardingGoal): string
+    /**
+     * @param ActiveRow $onboardingGoal
+     * @return array Returns array with Segment properties based on provided $onboardingGoal
+     *
+     * Returned array:
+     *   [
+     *      'code' => string,
+     *      'name' => string,
+     *      'query_string' => string,
+     *      'table_name' => string,
+     *      'fields' => string,
+     *      'version' => int,
+     *   ]
+     */
+    final public static function generateOnboardingGoalSegmentProperties(ActiveRow $onboardingGoal): array
     {
-        return <<<SQL
+        $query = <<<SQL
 SELECT %fields% FROM %table%
 INNER JOIN `user_onboarding_goals`
     ON `user_onboarding_goals`.`user_id`=%table%.`id`
@@ -67,5 +81,14 @@ WHERE
     AND `user_onboarding_goals`.`completed_at` IS NULL
 GROUP BY %table%.`id`
 SQL;
+
+        return [
+            'code' => 'onboarding_' . $onboardingGoal->code,
+            'name' => 'Targeting onboarding goal: ' . $onboardingGoal->name,
+            'query_string' => $query,
+            'table_name' => 'users',
+            'fields' => 'users.id,users.email',
+            'version' => 1
+        ];
     }
 }
