@@ -30,9 +30,11 @@ class OnboardingGoalFormFactory
     public function create($id)
     {
         $defaults = [];
+        $disabledCodeInput = false;
         if (isset($id)) {
             $onboardingGoal = $this->onboardingGoalsRepository->find($id);
             $defaults = $onboardingGoal->toArray();
+            $disabledCodeInput = true;
         }
 
         $form = new Form;
@@ -41,7 +43,8 @@ class OnboardingGoalFormFactory
         $form->addProtection();
 
         $form->addText('name', 'onboarding.data.goals.fields.name');
-        $form->addText('code', 'onboarding.data.goals.fields.code');
+        $form->addText('code', 'onboarding.data.goals.fields.code')
+            ->setDisabled($disabledCodeInput);
 
         $typeInputValues = [];
         foreach (OnboardingGoalsRepository::availableTypes() as $type) {

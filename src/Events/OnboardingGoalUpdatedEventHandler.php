@@ -30,11 +30,6 @@ class OnboardingGoalUpdatedEventHandler extends AbstractListener
         if (!$onboardingGoal) {
             throw new \Exception('OnboardingGoalUpdatedEvent without onboarding goal');
         }
-        $originalCode = $event->getOriginalCode();
-        if (!$originalCode) {
-            throw new \Exception('OnboardingGoalUpdatedEvent without original code');
-        }
-
         $group = $this->segmentGroupsRepository->findByCode('onboarding');
         if ($group === null) {
             throw new \Exception('Segments group [onboarding] does not exist. Cannot add segment.');
@@ -52,12 +47,11 @@ WHERE
 GROUP BY %table%.`id`
 SQL;
 
-        $originalSegmentCode = 'onboarding_' . $originalCode;
+        $segmentCode = 'onboarding_' . $onboardingGoal->code;
         $name = 'Onboarding: ' . $onboardingGoal->name;
         $table = 'users';
         $fields = 'users.id,users.email';
 
-        // TODO: what to do if segment with new code exists?
-        $this->segmentsRepository->upsert($originalSegmentCode, $name, $query, $table, $fields, $group);
+        $this->segmentsRepository->upsert($segmentCode, $name, $query, $table, $fields, $group);
     }
 }

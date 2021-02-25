@@ -44,12 +44,15 @@ class OnboardingGoalsRepository extends Repository
 
     final public function update(IRow &$row, $data)
     {
-        $originalCode = $row['code'];
+        // do not allow change of code
+        if (isset($data['code'])) {
+            unset($data['code']);
+        }
 
         $data['updated_at'] = new DateTime();
         $updated = parent::update($row, $data);
 
-        $this->emitter->emit(new OnboardingGoalUpdatedEvent($originalCode, $row));
+        $this->emitter->emit(new OnboardingGoalUpdatedEvent($row));
         return $updated;
     }
 
