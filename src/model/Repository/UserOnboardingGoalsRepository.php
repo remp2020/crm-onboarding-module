@@ -73,17 +73,14 @@ class UserOnboardingGoalsRepository extends Repository
             $completedAt = new DateTime();
         }
 
-        $userOnboardingGoal = $this->userActiveOnboardingGoal($userId, $onboardingGoalId);
+        $userOnboardingGoal = $this->userLastGoal($userId, $onboardingGoalId);
 
-        if ($userOnboardingGoal === null) {
+        // no goal or last goal is timed out; create new completed
+        if ($userOnboardingGoal === null || $userOnboardingGoal->timedout_at !== null) {
             return $this->add($userId, $onboardingGoalId, $completedAt);
         }
 
-        // do not complete timed out goal
-        if ($userOnboardingGoal->timedout_at !== null) {
-            return false;
-        }
-
+        // if last goal is active (not completed / not timed out) or completed; update completed_at
         return $this->update($userOnboardingGoal, ['completed_at' => $completedAt]);
     }
 
@@ -93,17 +90,14 @@ class UserOnboardingGoalsRepository extends Repository
             $timedoutAt = new DateTime();
         }
 
-        $userOnboardingGoal = $this->userActiveOnboardingGoal($userId, $onboardingGoalId);
+        $userOnboardingGoal = $this->userLastGoal($userId, $onboardingGoalId);
 
-        if ($userOnboardingGoal === null) {
-            return $this->add($userId, $onboardingGoalId, null, $timedoutAt);
+        // no goal or last goal is completed; create new timed out
+        if ($userOnboardingGoal === null || $userOnboardingGoal->completed_at !== null) {
+            return $this->add($userId, $onboardingGoalId, $timedoutAt);
         }
 
-        // do not timeout completed goal
-        if ($userOnboardingGoal->completed_at !== null) {
-            return false;
-        }
-
+        // if last goal is active (not completed / not timed out) or timed out; update timedout_at
         return $this->update($userOnboardingGoal, ['timedout_at' => $timedoutAt]);
     }
 
