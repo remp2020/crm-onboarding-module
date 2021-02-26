@@ -37,8 +37,10 @@ class OnboardingGoalUpdatedEventHandler extends AbstractListener
         }
 
         $segmentProperties = SegmentsSeeder::generateOnboardingGoalSegmentProperties($onboardingGoal);
+        $segment = $this->segmentsRepository->findByCode($segmentProperties['code']);
 
-        $this->segmentsRepository->upsert(
+        $this->segmentsRepository->setLock($segment, false);
+        $segment = $this->segmentsRepository->upsert(
             $segmentProperties['code'],
             $segmentProperties['name'],
             $segmentProperties['query_string'],
@@ -46,5 +48,6 @@ class OnboardingGoalUpdatedEventHandler extends AbstractListener
             $segmentProperties['fields'],
             $group
         );
+        $this->segmentsRepository->setLock($segment, true);
     }
 }

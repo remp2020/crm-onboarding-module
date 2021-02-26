@@ -43,14 +43,20 @@ class SegmentsSeeder implements ISeeder
 
         foreach ($this->onboardingGoalsRepository->all() as $onboardingGoal) {
             $segmentProperties = self::generateOnboardingGoalSegmentProperties($onboardingGoal);
+            $segment = $this->segmentsRepository->findByCode($segmentProperties['code']);
 
-            $this->seedOrUpdateSegment(
+            // if segment exists, we need to unlock it before changes can be saved
+            if ($segment) {
+                $this->segmentsRepository->setLock($segment, false);
+            }
+            $segment = $this->seedOrUpdateSegment(
                 $output,
                 $segmentProperties['name'],
                 $segmentProperties['code'],
                 $segmentProperties['query_string'],
                 $onboardingSegmentsGroup
             );
+            $this->segmentsRepository->setLock($segment, true);
         }
     }
 
@@ -66,6 +72,7 @@ class SegmentsSeeder implements ISeeder
      *      'table_name' => string,
      *      'fields' => string,
      *      'version' => int,
+     *      'locked' => boolean,
      *   ]
      *
      * @throws \Exception If onboarding goal is missing.
@@ -98,7 +105,7 @@ SQL;
             'query_string' => $query,
             'table_name' => 'users',
             'fields' => 'users.id,users.email',
-            'version' => 1
+            'version' => 1,
         ];
     }
 }
