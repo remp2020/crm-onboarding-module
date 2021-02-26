@@ -42,8 +42,10 @@ class OnboardingGoalFormFactory
         $form->setTranslator($this->translator);
         $form->addProtection();
 
-        $form->addText('name', 'onboarding.data.goals.fields.name');
+        $form->addText('name', 'onboarding.data.goals.fields.name')
+            ->setRequired();
         $form->addText('code', 'onboarding.data.goals.fields.code')
+            ->setRequired()
             ->setDisabled($disabledCodeInput);
 
         $typeInputValues = [];
@@ -55,7 +57,8 @@ class OnboardingGoalFormFactory
             'type',
             'onboarding.data.goals.fields.type',
             $typeInputValues
-        );
+        )
+            ->setRequired();
 
         $form->addHidden('onboarding_goal_id', $id);
 

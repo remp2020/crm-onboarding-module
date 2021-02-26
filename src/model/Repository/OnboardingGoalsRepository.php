@@ -28,7 +28,7 @@ class OnboardingGoalsRepository extends Repository
 
     // TODO: add segment goal type (user completes goal when he appears in segment)
 
-    final public function add($code, $name, $type)
+    final public function add(string $code, string $name, string $type)
     {
         $data = [
             'code' => $code,

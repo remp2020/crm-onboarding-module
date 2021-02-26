@@ -67,17 +67,26 @@ class SegmentsSeeder implements ISeeder
      *      'fields' => string,
      *      'version' => int,
      *   ]
+     *
+     * @throws \Exception If onboarding goal is missing.
      */
     final public static function generateOnboardingGoalSegmentProperties(ActiveRow $onboardingGoal): array
     {
+        if (!isset($onboardingGoal->code) || empty(trim($onboardingGoal->code))) {
+            $code = $onboardingGoal->code ?? '';
+            throw new \Exception("Invalid code [{$code}] of onboarding goal with ID [{$onboardingGoal->id}].");
+        }
+
         $query = <<<SQL
 SELECT %fields% FROM %table%
 INNER JOIN `user_onboarding_goals`
     ON `user_onboarding_goals`.`user_id`=%table%.`id`
+INNER JOIN `onboarding_goals`
+    ON `user_onboarding_goals`.`onboarding_goal_id` = `onboarding_goals`.`id`
 WHERE
     %where%
     AND %table%.`active` = 1
-    AND `user_onboarding_goals`.`onboarding_goal_id` = {$onboardingGoal->id}
+    AND `onboarding_goals`.`code` = '{$onboardingGoal->code}'
     AND `user_onboarding_goals`.`completed_at` IS NULL
 GROUP BY %table%.`id`
 SQL;
