@@ -51,7 +51,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
 
     public function renderDefault()
     {
-        $onboardingGoals = $this->onboardingGoalsRepository->all();
+        $onboardingGoals = $this->onboardingGoalsRepository->all()->order('created_at DESC');
 
         $goalsLast24hours = $this->userOnboardingGoalsRepository
             ->completedGoalsCountSince((new DateTime())->sub(new DateInterval('P1D')));

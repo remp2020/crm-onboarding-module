@@ -34,7 +34,7 @@ class OnboardingGoalsRepository extends Repository
 
     final public function all()
     {
-        return $this->getTable()->order('created_at DESC');
+        return $this->getTable();
     }
 
     final public static function availableTypes()

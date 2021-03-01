@@ -6,11 +6,13 @@ use Crm\ApiModule\Api\ApiRoutersContainerInterface;
 use Crm\ApiModule\Authorization\BearerTokenAuthorization;
 use Crm\ApiModule\Router\ApiIdentifier;
 use Crm\ApiModule\Router\ApiRoute;
+use Crm\ApplicationModule\Criteria\ScenariosCriteriaStorage;
 use Crm\ApplicationModule\CrmModule;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
 use Crm\ApplicationModule\Widget\WidgetManagerInterface;
 use Crm\OnboardingModule\Components\OnboardingProgress;
+use Crm\OnboardingModule\Scenarios\OnboardingGoalCompletedCriteria;
 
 class OnboardingModule extends CrmModule
 {
@@ -35,6 +37,15 @@ class OnboardingModule extends CrmModule
             900
         );
         $menuContainer->attachMenuItemToForeignModule(':Users:UsersAdmin:', $internalMenu, $menuItem);
+    }
+
+    public function registerScenariosCriteria(ScenariosCriteriaStorage $scenariosCriteriaStorage)
+    {
+        $scenariosCriteriaStorage->register(
+            'user',
+            OnboardingGoalCompletedCriteria::KEY,
+            $this->getInstance(OnboardingGoalCompletedCriteria::class)
+        );
     }
 
     public function registerWidgets(WidgetManagerInterface $widgetManager)

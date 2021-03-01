@@ -52,3 +52,8 @@ data:
 			code: Code
 			type: Type
 			created_at: Created at
+
+scenarios:
+	criteria:
+		completed_goal:
+			label: Completed onboarding goal

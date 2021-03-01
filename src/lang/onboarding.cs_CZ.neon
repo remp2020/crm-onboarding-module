@@ -50,3 +50,8 @@ data:
 			code: Kód
 			type: Typ
 			created_at: Vytvořený
+
+scenarios:
+	criteria:
+		completed_goal:
+			label: Dokončil onboarding gól
