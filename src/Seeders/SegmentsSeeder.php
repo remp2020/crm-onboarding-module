@@ -88,6 +88,7 @@ WHERE
     AND %table%.`active` = 1
     AND `onboarding_goals`.`code` = '{$onboardingGoal->code}'
     AND `user_onboarding_goals`.`completed_at` IS NULL
+    AND `user_onboarding_goals`.`timedout_at` IS NULL
 GROUP BY %table%.`id`
 SQL;
 
