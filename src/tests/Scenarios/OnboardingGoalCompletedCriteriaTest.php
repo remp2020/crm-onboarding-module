@@ -16,6 +16,9 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
     /** @var OnboardingGoalsRepository */
     private $onboardingGoalsRepository;
 
+    /** @var OnboardingGoalCompletedCriteria */
+    private $onboardingGoalCompletedCriteria;
+
     /** @var UserOnboardingGoalsRepository */
     private $userOnboardingGoalsRepository;
 
@@ -27,6 +30,10 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         parent::setUp();
 
         $this->onboardingGoalsRepository = $this->getRepository(OnboardingGoalsRepository::class);
+        $this->onboardingGoalCompletedCriteria = new OnboardingGoalCompletedCriteria(
+            $this->onboardingGoalsRepository,
+            $this->inject(ITranslator::class)
+        );
         $this->userOnboardingGoalsRepository = $this->getRepository(UserOnboardingGoalsRepository::class);
         $this->usersRepository = $this->getRepository(UsersRepository::class);
     }
@@ -48,14 +55,14 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
 
     public function testGoalCompletedSuccess()
     {
-        [$onboardingGoal, $user, $criteriaSelection, $onboardingGoalCompletedCriteria] = $this->prepare();
+        [$onboardingGoal, $user, $criteriaSelection] = $this->prepare();
         // complete onboarding goal for user
         $this->userOnboardingGoalsRepository->complete($user->id, $onboardingGoal->id, new DateTime());
 
         $this->assertTrue(
-            $onboardingGoalCompletedCriteria->addConditions(
+            $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
-                [OnboardingGoalCompletedCriteria::KEY => (object)['selection' => [$onboardingGoal->code]]],
+                [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]]],
                 $user
             )
         );
@@ -68,15 +75,15 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
 
     public function testGoalNotCompletedFailure()
     {
-        [$onboardingGoal, $user, $criteriaSelection, $onboardingGoalCompletedCriteria] = $this->prepare();
+        [$onboardingGoal, $user, $criteriaSelection] = $this->prepare();
 
         // add active onboarding goal for user
         $this->userOnboardingGoalsRepository->add($user->id, $onboardingGoal->id);
 
         $this->assertTrue(
-            $onboardingGoalCompletedCriteria->addConditions(
+            $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
-                [OnboardingGoalCompletedCriteria::KEY => (object)['selection' => [$onboardingGoal->code]]],
+                [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]]],
                 $user
             )
         );
@@ -87,16 +94,15 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
 
     public function testGoalTimedoutFailure()
     {
-        [$onboardingGoal, $user, $criteriaSelection, $onboardingGoalCompletedCriteria] = $this->prepare();
+        [$onboardingGoal, $user, $criteriaSelection] = $this->prepare();
 
         // timeout onboarding goal for user
         $this->userOnboardingGoalsRepository->timeout($user->id, $onboardingGoal->id, new DateTime());
 
         $this->assertTrue(
-            /** @var OnboardingGoalCompletedCriteria $onboardingGoalCompletedCriteria */
-            $onboardingGoalCompletedCriteria->addConditions(
+            $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
-                [OnboardingGoalCompletedCriteria::KEY => (object)['selection' => [$onboardingGoal->code]]],
+                [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]]],
                 $user
             )
         );
@@ -108,15 +114,15 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
 
     public function testDifferentGoalCompletedFailure()
     {
-        [$onboardingGoal, $user, $criteriaSelection, $onboardingGoalCompletedCriteria] = $this->prepare();
+        [$onboardingGoal, $user, $criteriaSelection] = $this->prepare();
 
         // timeout onboarding goal for user
         $this->userOnboardingGoalsRepository->timeout($user->id, $onboardingGoal->id, new DateTime());
 
         $this->assertTrue(
-            $onboardingGoalCompletedCriteria->addConditions(
+            $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
-                [OnboardingGoalCompletedCriteria::KEY => (object)['selection' => ['different_not_completed_goal']]],
+                [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => ['different_not_completed_goal']]],
                 $user
             )
         );
@@ -124,6 +130,66 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         // false; user didn't pass criteria
         $this->assertFalse($criteriaSelection->fetch());
     }
+
+    /*********************************************************************
+     * Timeframe tests
+     ********************************************************************/
+
+    public function testGoalCompletedWeekAgoScenarioWantsLastMonthSuccess()
+    {
+        // goal completed last week; scenario wants completed within last month
+        [$criteriaSelection, $user] = $this->prepareForTimeframeTest(
+            '-1 week',
+            [
+                'selection' => 1,
+                'operator' => '>=',
+                'unit' => 'months',
+            ]
+        );
+
+        // user passed criteria; user row is returned from selection
+        $userPassedCriteria = $criteriaSelection->fetch();
+        $this->assertNotFalse($userPassedCriteria);
+        $this->assertEquals($userPassedCriteria->email, $user->email);
+    }
+
+    public function testGoalCompletedTwoMonthsAgoScenarioWantsLastMonthFailure()
+    {
+        // goal completed 2 months ago; scenario wants last month
+        [$criteriaSelection, $user] = $this->prepareForTimeframeTest(
+            '-2 months',
+            [
+                'selection' => 1,
+                'operator' => '>=',
+                'unit' => 'months',
+            ]
+        );
+
+        // user failed criteria; false is returned
+        $userPassedCriteria = $criteriaSelection->fetch();
+        $this->assertFalse($userPassedCriteria);
+    }
+
+    public function testGoalCompletedLastWeekScenarioWantsOlderThanMonthFailure()
+    {
+        // goal completed 1 week ago; scenario wants completed older than month
+        [$criteriaSelection, $user] = $this->prepareForTimeframeTest(
+            '-1 week',
+            [
+                'selection' => 1,
+                'operator' => '<=',
+                'unit' => 'months',
+            ]
+        );
+
+        // user failed criteria; false is returned
+        $userPassedCriteria = $criteriaSelection->fetch();
+        $this->assertFalse($userPassedCriteria);
+    }
+
+    /*********************************************************************
+     * Helper methods
+     ********************************************************************/
 
     private function prepare()
     {
@@ -139,16 +205,37 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
 
         // prepare criteria
         $criteriaSelection = $this->usersRepository->getTable();
-        $onboardingGoalCompletedCriteria = new OnboardingGoalCompletedCriteria(
-            $this->onboardingGoalsRepository,
-            $this->inject(ITranslator::class)
-        );
 
         return [
             $onboardingGoal,
             $user,
-            $criteriaSelection,
-            $onboardingGoalCompletedCriteria
+            $criteriaSelection
         ];
+    }
+
+    private function prepareForTimeframeTest(string $goalCompletedAgo, array $timeframeSettings): array
+    {
+        [$onboardingGoal, $user, $criteriaSelection] = $this->prepare();
+
+        // complete onboarding goal for user
+        $this->userOnboardingGoalsRepository->complete(
+            $user->id,
+            $onboardingGoal->id,
+            (new DateTime())->modify($goalCompletedAgo)
+        );
+
+        // set scenario condition to check if user completed goal within defined timeframe
+        $this->assertTrue(
+            $this->onboardingGoalCompletedCriteria->addConditions(
+                $criteriaSelection,
+                [
+                    OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]],
+                    OnboardingGoalCompletedCriteria::TIMEFRAME_KEY => (object)$timeframeSettings,
+                ],
+                $user
+            )
+        );
+
+        return [$criteriaSelection, $user];
     }
 }

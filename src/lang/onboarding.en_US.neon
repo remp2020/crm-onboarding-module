@@ -57,3 +57,9 @@ scenarios:
 	criteria:
 		completed_goal:
 			label: Completed onboarding goal
+			goal_param:
+				label: Goal
+			timeframe_param:
+				label: Timeframe
+				amount_label: Amount
+				units_label: Time unit

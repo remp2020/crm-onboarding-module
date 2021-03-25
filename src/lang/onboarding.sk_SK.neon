@@ -55,3 +55,9 @@ scenarios:
 	criteria:
 		completed_goal:
 			label: Dokončil onboarding gól
+			goal_param:
+				label: Gól
+			timeframe_param:
+				label: Za obdobie
+				amount_label: Počet
+				units_label: Časová jednotka
