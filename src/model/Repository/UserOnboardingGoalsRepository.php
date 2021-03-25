@@ -94,7 +94,7 @@ class UserOnboardingGoalsRepository extends Repository
 
         // no goal or last goal is completed; create new timed out
         if ($userOnboardingGoal === null || $userOnboardingGoal->completed_at !== null) {
-            return $this->add($userId, $onboardingGoalId, $timedoutAt);
+            return $this->add($userId, $onboardingGoalId, null, $timedoutAt);
         }
 
         // if last goal is active (not completed / not timed out) or timed out; update timedout_at

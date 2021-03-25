@@ -93,6 +93,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         $this->userOnboardingGoalsRepository->timeout($user->id, $onboardingGoal->id, new DateTime());
 
         $this->assertTrue(
+            /** @var OnboardingGoalCompletedCriteria $onboardingGoalCompletedCriteria */
             $onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
                 [OnboardingGoalCompletedCriteria::KEY => (object)['selection' => [$onboardingGoal->code]]],
