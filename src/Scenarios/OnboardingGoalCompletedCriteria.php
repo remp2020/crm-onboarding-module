@@ -19,7 +19,13 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
     public const GOALS_KEY = 'onboarding-goals';
     public const TIMEFRAME_KEY = 'onboarding-goal-timeframe';
 
-    private const OPERATORS = ['>=', '<='];
+    public const OPERATOR_IN_THE_LAST = 'in the last';
+    public const OPERATOR_BEFORE = 'before';
+    private const OPERATORS = [
+        '>=' => self::OPERATOR_IN_THE_LAST,
+        '<=' => self::OPERATOR_BEFORE,
+    ];
+
     private const UNITS = ['days', 'weeks', 'months', 'years'];
 
     private $onboardingGoalsRepository;
@@ -48,7 +54,7 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
                 $this->translator->translate('onboarding.scenarios.criteria.completed_goal.timeframe_param.label'),
                 $this->translator->translate('onboarding.scenarios.criteria.completed_goal.timeframe_param.amount_label'),
                 $this->translator->translate('onboarding.scenarios.criteria.completed_goal.timeframe_param.units_label'),
-                self::OPERATORS,
+                array_values(self::OPERATORS),
                 self::UNITS
             ),
         ];
@@ -67,9 +73,9 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
             $paramValues[self::TIMEFRAME_KEY]->unit,
             $paramValues[self::TIMEFRAME_KEY]->selection
         )) {
-            $timeframeOperator = $paramValues[self::TIMEFRAME_KEY]->operator;
-            if (!in_array($timeframeOperator, self::OPERATORS, true)) {
-                throw new \Exception("Timeframe operator [{$timeframeOperator}] is not a valid operator out of: " . Json::encode(self::OPERATORS));
+            $timeframeOperator = array_search($paramValues[self::TIMEFRAME_KEY]->operator, self::OPERATORS, true);
+            if ($timeframeOperator === false) {
+                throw new \Exception("Timeframe operator [{$timeframeOperator}] is not a valid operator out of: " . Json::encode(array_values(self::OPERATORS)));
             }
             $timeframeUnit = $paramValues[self::TIMEFRAME_KEY]->unit;
             if (!in_array($timeframeUnit, self::UNITS, true)) {

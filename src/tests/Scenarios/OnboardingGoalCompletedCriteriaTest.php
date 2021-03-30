@@ -142,7 +142,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             '-1 week',
             [
                 'selection' => 1,
-                'operator' => '>=',
+                'operator' => OnboardingGoalCompletedCriteria::OPERATOR_IN_THE_LAST,
                 'unit' => 'months',
             ]
         );
@@ -160,7 +160,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             '-2 months',
             [
                 'selection' => 1,
-                'operator' => '>=',
+                'operator' => OnboardingGoalCompletedCriteria::OPERATOR_IN_THE_LAST,
                 'unit' => 'months',
             ]
         );
@@ -177,7 +177,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             '-1 week',
             [
                 'selection' => 1,
-                'operator' => '<=',
+                'operator' => OnboardingGoalCompletedCriteria::OPERATOR_BEFORE,
                 'unit' => 'months',
             ]
         );
