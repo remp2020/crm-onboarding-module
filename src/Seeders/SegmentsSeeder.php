@@ -3,6 +3,7 @@
 namespace Crm\OnboardingModule\Seeders;
 
 use Crm\ApplicationModule\Seeders\ISeeder;
+use Crm\OnboardingModule\Models\OnboardingGoalSegment;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\SegmentModule\Repository\SegmentGroupsRepository;
 use Crm\SegmentModule\Repository\SegmentsRepository;
@@ -100,8 +101,8 @@ GROUP BY %table%.`id`
 SQL;
 
         return [
-            'code' => 'onboarding_' . $onboardingGoal->code,
-            'name' => 'Targeting onboarding goal: ' . $onboardingGoal->name,
+            'code' => OnboardingGoalSegment::getSegmentCode($onboardingGoal->code),
+            'name' => OnboardingGoalSegment::getSegmentName($onboardingGoal->name),
             'query_string' => $query,
             'table_name' => 'users',
             'fields' => 'users.id,users.email',

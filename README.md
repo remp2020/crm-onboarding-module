@@ -53,6 +53,67 @@ The completion of the goal can differ based on the type of goal. Currently we pl
 - *Simple*. These type of goals have to be completed explicitly for each user by calling [onboarding-goals/complete](#post-onboarding-goalscomplete) API endpoint.
 - *Beam* (not available yet). These type of goals have Beam event defined as a trigger. Once the event is submitted to Beam, goal will be automatically completed for given user in CRM.
 
+## Segments of users with active onboarding goals
+
+Command `php bin/command.php application:seed` automatically generates segments for an onboarding goals.
+
+- Generated is only configuration and SQL query; rest is in the hands of [SegmentModule](https://github.com/remp2020/crm-segment-module/).
+- These segments are locked so users cannot edit them via CRM administration.
+- Each onboarding goal has it's own segment.
+
+Users will be part of the goal's segment if they:
+
+- are active,
+- have active onboarding goal _(entry in `user_onboarding_goals` table; not completed or timed out)_.
+
+Note: Activation of the onboarding goal for the user should be handled by your module or you can create scenario in [ScenariosModule](https://github.com/remp2020/crm-scenarios-module/). Scenario which will generate entry for each user which enters scenario's onboarding goal node _(handled by `Crm\ScenariosModule\Events\OnboardingGoalsCheckEventHandler`)_.
+
+### Real-time segments within REMP Campaign
+
+If you are using CRM segments in REMP Campaign, you'll need to enable handler which updates onboarding goal segments' cache in REMP Campaign. Otherwise you'll encounter situations where user completed goal but he still sees campaign's banner _(he is part of cached segment)_.
+
+_Note: Module [RempCampaignModule](https://github.com/remp2020/crm-remp-campaign-module/) has to be installed and enabled._
+
+Add prepared handler into the `services` part of the config of your module:
+
+```neon
+services:
+	- Crm\RempCampaignModule\Events\UserOnboardingGoalEventsHandler
+```
+
+And enable listeners for changes to user's onboarding goals in your modules (eg. `ExampleModule\ExampleModule.php`):
+
+```php
+namespace Crm\ExampleModule;
+
+class ExampleModule extends \Crm\ApplicationModule\CrmModule
+{
+    //...
+
+    public function registerEventHandlers(\League\Event\Emitter $emitter)
+    {
+        //...
+
+        // catch user onboarding events & handle them in RempCampaign's handler
+        $emitter->addListener(
+            \Crm\OnboardingModule\Events\UserOnboardingGoalCreatedEvent::class,
+            $this->getInstance(\Crm\RempCampaignModule\Events\UserOnboardingGoalEventsHandler::class)
+        );
+        $emitter->addListener(
+            \Crm\OnboardingModule\Events\UserOnboardingGoalCompletedEvent::class,
+            $this->getInstance(\Crm\RempCampaignModule\Events\UserOnboardingGoalEventsHandler::class)
+        );
+        $emitter->addListener(
+            \Crm\OnboardingModule\Events\UserOnboardingGoalTimedoutEvent::class,
+            $this->getInstance(\Crm\RempCampaignModule\Events\UserOnboardingGoalEventsHandler::class)
+        );
+        //...
+    }
+
+    //...
+}
+```
+
 ## API documentation
 
 All examples use `http://crm.press` as a base domain. Please change the host to the one you use
