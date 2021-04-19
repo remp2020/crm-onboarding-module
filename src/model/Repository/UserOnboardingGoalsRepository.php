@@ -3,6 +3,11 @@
 namespace Crm\OnboardingModule\Repository;
 
 use Crm\ApplicationModule\Repository;
+use Crm\OnboardingModule\Events\UserOnboardingGoalCompletedEvent;
+use Crm\OnboardingModule\Events\UserOnboardingGoalCreatedEvent;
+use Crm\OnboardingModule\Events\UserOnboardingGoalTimedoutEvent;
+use League\Event\Emitter;
+use Nette\Database\Context;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\IRow;
 use Nette\Database\Table\Selection;
@@ -11,6 +16,16 @@ use Nette\Utils\DateTime;
 class UserOnboardingGoalsRepository extends Repository
 {
     protected $tableName = 'user_onboarding_goals';
+
+    private $emitter;
+
+    public function __construct(
+        Context $database,
+        Emitter $emitter
+    ) {
+        parent::__construct($database);
+        $this->emitter = $emitter;
+    }
 
     final public function all($userId = null, bool $onlyCompleted = false): Selection
     {
@@ -35,36 +50,30 @@ class UserOnboardingGoalsRepository extends Repository
     {
         // do not allow to create more than one not-completed / not-timed-out entries
         $userOnboardingGoal = $this->userActiveOnboardingGoal($userId, $onboardingGoalId);
-        if ($userOnboardingGoal !== null) {
-            $data = [];
-            if ($completedAt) {
-                $data['completed_at'] = $completedAt;
-            }
+        if ($userOnboardingGoal === null) {
+            // no active entry; insert
+            $data = [
+                'user_id' => $userId,
+                'onboarding_goal_id' => $onboardingGoalId,
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ];
 
-            if ($timedoutAt) {
-                $data['timedout_at'] = $timedoutAt;
-            }
-            $this->update($userOnboardingGoal, $data);
-            return $userOnboardingGoal;
+            $userOnboardingGoal = $this->insert($data);
+            $this->emitter->emit(new UserOnboardingGoalCreatedEvent($userOnboardingGoal));
         }
 
-        // no active entry; insert
-        $data = [
-            'user_id' => $userId,
-            'onboarding_goal_id' => $onboardingGoalId,
-            'created_at' => new DateTime(),
-            'updated_at' => new DateTime(),
-        ];
-
+        $data = [];
         if ($completedAt) {
             $data['completed_at'] = $completedAt;
         }
-
         if ($timedoutAt) {
             $data['timedout_at'] = $timedoutAt;
         }
+        // update also in case completed & timedout are empty; we want to "touch" updated_at field
+        $this->update($userOnboardingGoal, $data);
 
-        return $this->insert($data);
+        return $userOnboardingGoal;
     }
 
     final public function complete($userId, $onboardingGoalId, $completedAt = null)
@@ -158,7 +167,19 @@ class UserOnboardingGoalsRepository extends Repository
     final public function update(IRow &$row, $data)
     {
         $data['updated_at'] = new DateTime();
-        return parent::update($row, $data);
+
+        $result = parent::update($row, $data);
+
+        if (isset($data['completed_at'])) {
+            $this->emitter->emit(new UserOnboardingGoalCompletedEvent($row));
+        } elseif (isset($data['timedout_at'])) {
+            $this->emitter->emit(new UserOnboardingGoalTimedoutEvent($row));
+        } elseif (count($data) === 1 && isset($data['updated_at'])) {
+            // only updated_at was changed -> user onboarding goal was "touched" to indicate that it is still alive
+            $this->emitter->emit(new UserOnboardingGoalCreatedEvent($row));
+        }
+
+        return $result;
     }
 
     /**
