@@ -72,7 +72,7 @@ class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
         $this->assertEquals($segmentProperties['code'], $segmentCreated->code);
         $this->assertEquals($segmentProperties['name'], $segmentCreated->name);
         $this->assertEquals($segmentProperties['query_string'], $segmentCreated->query_string);
-        $this->assertTrue($segmentCreated->locked);
+        $this->assertTrue((bool) $segmentCreated->locked);
 
         // test update
         $onboardingGoalUpdate = clone($onboardingGoal);
@@ -94,7 +94,7 @@ class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
         $this->assertEquals($segmentUpdatedProperties['code'], $segmentUpdated->code);
         $this->assertEquals($segmentUpdatedProperties['name'], $segmentUpdated->name);
         $this->assertEquals($segmentUpdatedProperties['query_string'], $segmentUpdated->query_string);
-        $this->assertTrue($segmentUpdated->locked);
+        $this->assertTrue((bool) $segmentUpdated->locked);
 
         // segment's code & query string should be same as before update
         // (code cannot be updated)
