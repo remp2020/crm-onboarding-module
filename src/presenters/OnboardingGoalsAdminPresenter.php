@@ -49,6 +49,9 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $this->userOnboardingGoalsRepository = $userOnboardingGoalsRepository;
     }
 
+    /**
+     * @admin-access-level read
+     */
     public function renderDefault()
     {
         $onboardingGoals = $this->onboardingGoalsRepository->all()->order('created_at DESC');
@@ -75,10 +78,16 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $this->template->goalsLast31days = $goalsLast31days;
     }
 
+    /**
+     * @admin-access-level write
+     */
     public function renderNew()
     {
     }
 
+    /**
+     * @admin-access-level read
+     */
     public function renderShow($id)
     {
         $goal = $this->onboardingGoalsRepository->find($id);
@@ -93,6 +102,9 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $this->template->dateTo = $this->dateTo;
     }
 
+    /**
+     * @admin-access-level write
+     */
     public function renderEdit($id)
     {
         $this->template->goal = $this->onboardingGoalsRepository->find($id);
