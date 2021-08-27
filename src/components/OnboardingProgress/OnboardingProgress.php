@@ -29,7 +29,6 @@ class OnboardingProgress extends Control implements WidgetInterface
         UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
         ITranslator $translator
     ) {
-        parent::__construct();
         $this->translator = $translator;
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
         $this->userOnboardingGoalsRepository = $userOnboardingGoalsRepository;
