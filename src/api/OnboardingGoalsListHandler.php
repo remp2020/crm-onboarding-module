@@ -2,9 +2,9 @@
 
 namespace Crm\OnboardingModule\Api;
 
+use Crm\ApiModule\Api\ApiHandler;
 use Crm\ApiModule\Api\JsonResponse;
 use Crm\ApiModule\Authorization\ApiAuthorizationInterface;
-use Crm\ApiModule\Api\ApiHandler;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Nette\Http\Response;
 
