@@ -6,7 +6,7 @@ use Crm\ApplicationModule\Repository;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
 use League\Event\Emitter;
-use Nette\Database\Context;
+use Nette\Database\Explorer;
 use Nette\Database\Table\IRow;
 use Nette\Utils\DateTime;
 
@@ -19,7 +19,7 @@ class OnboardingGoalsRepository extends Repository
     private $emitter;
 
     public function __construct(
-        Context $database,
+        Explorer $database,
         Emitter $emitter
     ) {
         parent::__construct($database);
