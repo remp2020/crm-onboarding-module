@@ -7,7 +7,7 @@ use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
-use Nette\Database\Table\IRow;
+use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;
 
 class OnboardingGoalsRepository extends Repository
@@ -42,7 +42,7 @@ class OnboardingGoalsRepository extends Repository
         return $onboardingGoal;
     }
 
-    final public function update(IRow &$row, $data)
+    final public function update(ActiveRow &$row, $data)
     {
         // do not allow change of code
         if (isset($data['code'])) {

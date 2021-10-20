@@ -8,8 +8,8 @@ use Crm\OnboardingModule\Events\UserOnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\UserOnboardingGoalTimedoutEvent;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
+use Nette\Database\Row;
 use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\IRow;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
@@ -164,7 +164,7 @@ class UserOnboardingGoalsRepository extends Repository
             ->fetchPairs('onboarding_goal_id', 'total');
     }
 
-    final public function update(IRow &$row, $data)
+    final public function update(ActiveRow &$row, $data)
     {
         $data['updated_at'] = new DateTime();
 
@@ -192,7 +192,7 @@ class UserOnboardingGoalsRepository extends Repository
      *
      * @param $onboardingGoalId int|string Distribution is computed for given onboarding goal ID.
      *
-     * @return array|\Nette\Database\IRow[]|\Nette\Database\ResultSet
+     * @return array|Row[]|\Nette\Database\ResultSet
      */
     final public function userRegistrationAndSubscriptionOwnershipDistributionForGoal($onboardingGoalId)
     {
@@ -231,7 +231,7 @@ SQL;
      *
      * @param $onboardingGoalId int|string Distribution is computed for given onboarding goal ID.
      *
-     * @return array|\Nette\Database\IRow[]|\Nette\Database\ResultSet
+     * @return array|Row[]|\Nette\Database\ResultSet
      */
     final public function nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($onboardingGoalId)
     {

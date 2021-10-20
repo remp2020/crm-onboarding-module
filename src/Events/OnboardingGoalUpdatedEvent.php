@@ -3,21 +3,21 @@
 namespace Crm\OnboardingModule\Events;
 
 use League\Event\AbstractEvent;
-use Nette\Database\Table\IRow;
+use Nette\Database\Table\ActiveRow;
 
 class OnboardingGoalUpdatedEvent extends AbstractEvent
 {
     private $onboardingGoal;
 
     /**
-     * @param IRow $onboardingGoal Updated onboarding goal
+     * @param ActiveRow $onboardingGoal Updated onboarding goal
      */
-    public function __construct(IRow $onboardingGoal)
+    public function __construct(ActiveRow $onboardingGoal)
     {
         $this->onboardingGoal = $onboardingGoal;
     }
 
-    public function getOnboardingGoal(): IRow
+    public function getOnboardingGoal(): ActiveRow
     {
         return $this->onboardingGoal;
     }

@@ -6,7 +6,7 @@ use Crm\ApplicationModule\Criteria\ScenarioParams\StringLabeledArrayParam;
 use Crm\ApplicationModule\Criteria\ScenarioParams\TimeframeParam;
 use Crm\ApplicationModule\Criteria\ScenariosCriteriaInterface;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
-use Nette\Database\Table\IRow;
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Localization\ITranslator;
 use Nette\Utils\DateTime;
@@ -60,7 +60,7 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
         ];
     }
 
-    public function addConditions(Selection $selection, array $paramValues, IRow $criterionItemRow): bool
+    public function addConditions(Selection $selection, array $paramValues, ActiveRow $criterionItemRow): bool
     {
         $goals = $paramValues[self::GOALS_KEY];
         $selection

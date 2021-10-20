@@ -2,19 +2,19 @@
 
 namespace Crm\OnboardingModule\Events;
 
-use Nette\Database\Table\IRow;
+use Nette\Database\Table\ActiveRow;
 
 trait UserOnboardingGoalEventTrait
 {
     private $userOnboardingGoal;
 
     public function __construct(
-        IRow $userOnboardingGoal
+        ActiveRow $userOnboardingGoal
     ) {
         $this->userOnboardingGoal = $userOnboardingGoal;
     }
 
-    public function getUserOnboardingGoal(): IRow
+    public function getUserOnboardingGoal(): ActiveRow
     {
         return $this->userOnboardingGoal;
     }
