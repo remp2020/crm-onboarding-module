@@ -8,7 +8,7 @@ use Crm\OnboardingModule\Scenarios\OnboardingGoalCompletedCriteria;
 use Crm\OnboardingModule\Tests\BaseTestCase;
 use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Repository\UsersRepository;
-use Nette\Localization\ITranslator;
+use Nette\Localization\Translator;
 use Nette\Utils\DateTime;
 
 class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
@@ -32,7 +32,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         $this->onboardingGoalsRepository = $this->getRepository(OnboardingGoalsRepository::class);
         $this->onboardingGoalCompletedCriteria = new OnboardingGoalCompletedCriteria(
             $this->onboardingGoalsRepository,
-            $this->inject(ITranslator::class)
+            $this->inject(Translator::class)
         );
         $this->userOnboardingGoalsRepository = $this->getRepository(UserOnboardingGoalsRepository::class);
         $this->usersRepository = $this->getRepository(UsersRepository::class);

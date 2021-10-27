@@ -7,7 +7,7 @@ use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Application\UI\Control;
-use Nette\Localization\ITranslator;
+use Nette\Localization\Translator;
 
 class OnboardingProgress extends Control implements WidgetInterface
 {
@@ -27,7 +27,7 @@ class OnboardingProgress extends Control implements WidgetInterface
         UsersRepository $usersRepository,
         OnboardingGoalsRepository $onboardingGoalsRepository,
         UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
-        ITranslator $translator
+        Translator $translator
     ) {
         $this->translator = $translator;
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;

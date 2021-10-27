@@ -8,7 +8,7 @@ use Crm\ApplicationModule\Criteria\ScenariosCriteriaInterface;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
-use Nette\Localization\ITranslator;
+use Nette\Localization\Translator;
 use Nette\Utils\DateTime;
 use Nette\Utils\Json;
 
@@ -34,7 +34,7 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
 
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
-        ITranslator $translator
+        Translator $translator
     ) {
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
         $this->translator = $translator;
