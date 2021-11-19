@@ -55,6 +55,20 @@ class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
         $this->segmentsRepository = $this->getRepository(SegmentsRepository::class);
     }
 
+    protected function tearDown(): void
+    {
+        $this->emitter->removeListener(
+            OnboardingGoalCreatedEvent::class,
+            $this->inject(OnboardingGoalCreatedEventHandler::class)
+        );
+        $this->emitter->removeListener(
+            OnboardingGoalUpdatedEvent::class,
+            $this->inject(OnboardingGoalUpdatedEventHandler::class)
+        );
+
+        parent::tearDown();
+    }
+
     public function testSuccess()
     {
         // create onboarding goal; repository emits event OnboardingGoalCreatedEvent

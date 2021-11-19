@@ -184,6 +184,8 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
         $this->assertEquals(2, $daysCounts['1']);
         $this->assertEquals(1, $daysCounts['7-30']);
         $this->assertEquals(1, $daysCounts['-']);
+
+        $this->emitter->removeListener(PaymentChangeStatusEvent::class, $paymentStatusChangeHandler);
     }
 
     private function addSubscription($user, $subscriptionType, $startDateString = '2020-01-01 01:00:00', $endDateString = '2021-01-01 01:00:00')
