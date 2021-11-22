@@ -69,7 +69,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
 
         // user passed criteria; user row is returned from selection
         $userPassedCriteria = $criteriaSelection->fetch();
-        $this->assertNotFalse($userPassedCriteria);
+        $this->assertNotNull($userPassedCriteria);
         $this->assertEquals($userPassedCriteria->email, $user->email);
     }
 
@@ -88,8 +88,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             )
         );
 
-        // false; user didn't pass criteria
-        $this->assertFalse($criteriaSelection->fetch());
+        // user failed criteria; no user is returned
+        $this->assertNull($criteriaSelection->fetch());
     }
 
     public function testGoalTimedoutFailure()
@@ -107,8 +107,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             )
         );
 
-        // false; user didn't pass criteria
-        $this->assertFalse($criteriaSelection->fetch());
+        // user failed criteria; no user is returned
+        $this->assertNull($criteriaSelection->fetch());
     }
 
 
@@ -127,8 +127,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             )
         );
 
-        // false; user didn't pass criteria
-        $this->assertFalse($criteriaSelection->fetch());
+        // user failed criteria; no user is returned
+        $this->assertNull($criteriaSelection->fetch());
     }
 
     /*********************************************************************
@@ -149,7 +149,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
 
         // user passed criteria; user row is returned from selection
         $userPassedCriteria = $criteriaSelection->fetch();
-        $this->assertNotFalse($userPassedCriteria);
+        $this->assertNotNull($userPassedCriteria);
         $this->assertEquals($userPassedCriteria->email, $user->email);
     }
 
@@ -165,9 +165,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             ]
         );
 
-        // user failed criteria; false is returned
-        $userPassedCriteria = $criteriaSelection->fetch();
-        $this->assertFalse($userPassedCriteria);
+        // user failed criteria; no user is returned
+        $this->assertNull($criteriaSelection->fetch());
     }
 
     public function testGoalCompletedLastWeekScenarioWantsOlderThanMonthFailure()
@@ -182,9 +181,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             ]
         );
 
-        // user failed criteria; false is returned
-        $userPassedCriteria = $criteriaSelection->fetch();
-        $this->assertFalse($userPassedCriteria);
+        // user failed criteria; no user is returned
+        $this->assertNull($criteriaSelection->fetch());
     }
 
     /*********************************************************************
