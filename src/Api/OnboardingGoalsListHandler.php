@@ -17,7 +17,7 @@ class OnboardingGoalsListHandler extends ApiHandler
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
     }
 
-    public function params()
+    public function params(): array
     {
         return [];
     }
