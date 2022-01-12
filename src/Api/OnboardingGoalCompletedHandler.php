@@ -5,7 +5,7 @@ namespace Crm\OnboardingModule\Api;
 use Crm\ApiModule\Api\ApiHandler;
 use Crm\ApiModule\Api\JsonResponse;
 use Crm\ApiModule\Api\JsonValidationTrait;
-use Crm\ApiModule\Authorization\ApiAuthorizationInterface;
+use Crm\ApiModule\Response\ApiResponseInterface;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
 use Crm\UsersModule\Repository\UsersRepository;
@@ -36,11 +36,8 @@ class OnboardingGoalCompletedHandler extends ApiHandler
         return [];
     }
 
-    /**
-     * @param ApiAuthorizationInterface $authorization
-     * @return \Nette\Application\Response
-     */
-    public function handle(ApiAuthorizationInterface $authorization)
+
+    public function handle(array $params): ApiResponseInterface
     {
         $result = $this->validateInput(__DIR__ . '/goal_completed.schema.json');
         if ($result->hasErrorResponse()) {

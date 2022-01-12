@@ -4,7 +4,7 @@ namespace Crm\OnboardingModule\Api;
 
 use Crm\ApiModule\Api\ApiHandler;
 use Crm\ApiModule\Api\JsonResponse;
-use Crm\ApiModule\Authorization\ApiAuthorizationInterface;
+use Crm\ApiModule\Response\ApiResponseInterface;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Nette\Http\Response;
 
@@ -22,11 +22,8 @@ class OnboardingGoalsListHandler extends ApiHandler
         return [];
     }
 
-    /**
-     * @param ApiAuthorizationInterface $authorization
-     * @return \Nette\Application\Response
-     */
-    public function handle(ApiAuthorizationInterface $authorization)
+
+    public function handle(array $params): ApiResponseInterface
     {
         $goals = [];
 
