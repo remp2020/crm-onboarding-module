@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\ScenariosModule\Tests;
+namespace Crm\OnboardingModule\Tests;
 
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
@@ -15,10 +15,14 @@ use Crm\SubscriptionsModule\Generator\SubscriptionsParams;
 use Crm\SubscriptionsModule\Repository\SubscriptionsRepository;
 use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Repository\UsersRepository;
+use League\Event\Emitter;
 use Nette\Utils\DateTime;
 
 class UserOnboardingGoalsRepositoryTest extends BaseTestCase
 {
+    /** @var Emitter */
+    private $emitter;
+
     /** @var UserManager */
     private $userManager;
 
@@ -45,6 +49,7 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->emitter = $this->inject(Emitter::class);
         $this->userManager = $this->inject(UserManager::class);
         $this->usersRepository = $this->inject(UsersRepository::class);
         $this->onboardingGoalsRepository = $this->getRepository(OnboardingGoalsRepository::class);
