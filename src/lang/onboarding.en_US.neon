@@ -4,7 +4,7 @@ component:
 	onboarding_progress:
 		header: Onboarding goals
 		completed_at: Completed at
-		yes: "Yes"
+		"yes": "Yes"
 		no_goals: No goals
 		no_goals_desc: No goals are defined
 admin:
@@ -31,8 +31,6 @@ admin:
 				help_registration: "Graph shows how long it took users to complete the goal from user registration and whether they were subscribers or not."
 				title_first_payment: Number of days to first payment after goal completion
 				help_first_payment: "Graph shows how long it took users to make a first subscription payment after they completed the goal (considering only those who hadn't purchased subscriptions before)"
-				title: Users actions related to goal completion
-				help:  and how long it took for non-subscribers to purchase a subscription after the goal was completed.
 				from: from
 				to: to
 				users_count: Users count
