@@ -4,7 +4,7 @@ component:
 	onboarding_progress:
 		header: Onboarding cíle
 		completed_at: Splněn v čase
-		yes: Ano
+		"yes": Ano
 		no_goals: Žádné cíle
 		no_goals_desc: Žádné cíle nejsou definovány
 admin:
