@@ -1,0 +1,63 @@
+menu:
+    onboarding_goals: Onboarding goals
+component:
+    onboarding_progress:
+        header: Onboarding goals
+        completed_at: Completed at
+        "yes": "Yes"
+        no_goals: No goals
+        no_goals_desc: No goals are defined
+admin:
+    onboarding_goals:
+        default:
+            title: Onboarding goal
+            new: New goal
+            hours: hours
+            days: days
+            completion_count_for_last: "Completion count<br />for last"
+        new:
+            title: New goal
+            back: Späť
+        edit:
+            title: Edit goal
+            back: Back
+        show:
+            edit: Edit
+            back: Back
+            completion_graph_title: Goal completition count
+            completion_graph_help: Count of how many subscribers have completed particular goal within selected time interval
+            flow_graph:
+                title_registration: Number of days to goal completion since registration
+                help_registration: "Graph shows how long it took users to complete the goal from user registration and whether they were subscribers or not."
+                title_first_payment: Number of days to first payment after goal completion
+                help_first_payment: "Graph shows how long it took users to make a first subscription payment after they completed the goal (considering only those who hadn't purchased subscriptions before)"
+                from: from
+                to: to
+                users_count: Users count
+                never_paid: Never paid
+                first_payment_in_days: "First payment in %s day(s)"
+                goal_completed_since: "Goal completed %s day(s) since registration"
+                was_subscriber: Was subscriber
+                was_non_subscriber: Was non-subscriber
+        messages:
+            goal_created: Goal created
+            goal_updated: Goal updated
+            goal_not_found: Goal was not found
+data:
+    goals:
+        fields:
+            name: Name
+            code: Code
+            type: Type
+            created_at: Created at
+
+scenarios:
+    criteria:
+        completed_goal:
+            label: Completed onboarding goal
+            goal_param:
+                label: Goal
+            timeframe_param:
+                label: Timeframe
+                amount_label: Amount
+                units_label: Time unit
