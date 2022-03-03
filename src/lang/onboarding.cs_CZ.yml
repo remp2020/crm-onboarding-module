@@ -40,9 +40,9 @@ admin:
                 was_subscriber: Byl předplatitel
                 was_non_subscriber: Nebyl předplatitel
         messages:
-            goal_created: Cíl vytvořen
-            goal_updated: Cíl aktualizován
-            goal_not_found: Cíl nenalezen
+            goal_created: Cíl vytvořen.
+            goal_updated: Cíl aktualizován.
+            goal_not_found: Cíl nenalezen.
 data:
     goals:
         fields:
