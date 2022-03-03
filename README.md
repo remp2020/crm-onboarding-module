@@ -1,5 +1,7 @@
 # CRM Onboarding Module
 
+[![Translation status @ Weblate](https://hosted.weblate.org/widgets/remp-crm/-/onboarding-module/svg-badge.svg)](https://hosted.weblate.org/projects/remp-crm/onboarding-module/)
+
 Onboarding module lets you define goals that your users should achieve. The goal is merely a label with flag describing whether it was finished by a user or not.
 
 Once the goal is defined, head to the Scenario builder and create a scenario including "Goal" element. The element can be configured with following properties:
