@@ -3,13 +3,13 @@
 namespace Crm\OnboardingModule\Api;
 
 use Crm\ApiModule\Api\ApiHandler;
-use Crm\ApiModule\Api\JsonResponse;
 use Crm\ApiModule\Api\JsonValidationTrait;
-use Crm\ApiModule\Response\ApiResponseInterface;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Http\Response;
+use Tomaj\NetteApi\Response\JsonApiResponse;
+use Tomaj\NetteApi\Response\ResponseInterface;
 
 class OnboardingGoalCompletedHandler extends ApiHandler
 {
@@ -37,7 +37,7 @@ class OnboardingGoalCompletedHandler extends ApiHandler
     }
 
 
-    public function handle(array $params): ApiResponseInterface
+    public function handle(array $params): ResponseInterface
     {
         $result = $this->validateInput(__DIR__ . '/goal_completed.schema.json');
         if ($result->hasErrorResponse()) {
@@ -50,22 +50,19 @@ class OnboardingGoalCompletedHandler extends ApiHandler
 
         $goal = $this->onboardingGoalsRepository->findBy('code', $goalCode);
         if (!$goal) {
-            $response = new JsonResponse(['status' => 'error', 'message' => "goal '$goalCode' not found"]);
-            $response->setHttpCode(Response::S404_NOT_FOUND);
+            $response = new JsonApiResponse(Response::S404_NOT_FOUND, ['status' => 'error', 'message' => "goal '$goalCode' not found"]);
             return $response;
         }
 
         $user = $this->usersRepository->find($userId);
         if (!$user) {
-            $response = new JsonResponse(['status' => 'error', 'message' => "user with ID '$userId' not found"]);
-            $response->setHttpCode(Response::S404_NOT_FOUND);
+            $response = new JsonApiResponse(Response::S404_NOT_FOUND, ['status' => 'error', 'message' => "user with ID '$userId' not found"]);
             return $response;
         }
 
         $this->userOnboardingGoalsRepository->complete($userId, $goal->id);
 
-        $response = new JsonResponse(['status' => 'ok']);
-        $response->setHttpCode(Response::S200_OK);
+        $response = new JsonApiResponse(Response::S200_OK, ['status' => 'ok']);
 
         return $response;
     }
