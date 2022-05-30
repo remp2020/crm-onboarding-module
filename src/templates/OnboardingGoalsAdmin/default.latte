@@ -1,4 +1,4 @@
-{block #title}{_onboarding.admin.onboarding_goals.default.title}{/block}
+{block #title}{_'onboarding.admin.onboarding_goals.default.title'}{/block}
 
 {block #content}
 
@@ -6,9 +6,9 @@
 
   <div class="col-md-12">
     <h1>
-      {_onboarding.admin.onboarding_goals.default.title}
+      {_'onboarding.admin.onboarding_goals.default.title'}
       <a n:href="new" class="btn btn-success btn-lg pull-right"><i
-                class="fa fa-sliders-h"></i> {_onboarding.admin.onboarding_goals.default.new}</a>
+                class="fa fa-sliders-h"></i> {_'onboarding.admin.onboarding_goals.default.new'}</a>
     </h1>
     <hr>
   </div>
@@ -17,12 +17,12 @@
     <table class="table table-striped table-hover table-bordered">
       <thead>
         <tr>
-          <th>{_onboarding.data.goals.fields.name}</th>
-          <th>{_onboarding.data.goals.fields.code}</th>
-          <th>{_onboarding.data.goals.fields.type}</th>
-          <th>{_onboarding.admin.onboarding_goals.default.completion_count_for_last|noescape}</th>
-          <th>{_onboarding.data.goals.fields.created_at}</th>
-          <th>{_system.actions}</th>
+          <th>{_'onboarding.data.goals.fields.name'}</th>
+          <th>{_'onboarding.data.goals.fields.code'}</th>
+          <th>{_'onboarding.data.goals.fields.type'}</th>
+          <th>{_'onboarding.admin.onboarding_goals.default.completion_count_for_last'|noescape}</th>
+          <th>{_'onboarding.data.goals.fields.created_at'}</th>
+          <th>{_'system.actions'}</th>
         </tr>
       </thead>
       <tbody>
@@ -32,17 +32,17 @@
             <td><code>{$goal->code}</code></td>
             <td>{$goal->type}</td>
             <td>
-              <span class="badge badge-default">{$goalsLast24hours[$goal->id] ?? 0}</span> 24 {_onboarding.admin.onboarding_goals.default.hours}<br />
-              <span class="badge badge-default">{$goalsLast7days[$goal->id] ?? 0}</span> 7 {_onboarding.admin.onboarding_goals.default.days}<br />
-              <span class="badge badge-default">{$goalsLast31days[$goal->id] ?? 0}</span> 31 {_onboarding.admin.onboarding_goals.default.days}<br />
+              <span class="badge badge-default">{$goalsLast24hours[$goal->id] ?? 0}</span> 24 {_'onboarding.admin.onboarding_goals.default.hours'}<br />
+              <span class="badge badge-default">{$goalsLast7days[$goal->id] ?? 0}</span> 7 {_'onboarding.admin.onboarding_goals.default.days'}<br />
+              <span class="badge badge-default">{$goalsLast31days[$goal->id] ?? 0}</span> 31 {_'onboarding.admin.onboarding_goals.default.days'}<br />
             </td>
             <td>{$goal->created_at|userDate}</td>
             <td style="white-space: nowrap">
               <p class="text-nowrap">
                 <a n:href="Show $goal->id"
-                        class="btn btn-sm btn-info" title="{_system.show}"><i class="fa fa-eye"></i> </a>
+                        class="btn btn-sm btn-info" title="{_'system.show'}"><i class="fa fa-eye"></i> </a>
                 <a n:href="Edit $goal->id"
-                        class="btn btn-sm btn-primary" title="{_system.edit}"><i class="fa fa-edit"></i> </a>
+                        class="btn btn-sm btn-primary" title="{_'system.edit'}"><i class="fa fa-edit"></i> </a>
               </p>
             </td>
           </tr>
