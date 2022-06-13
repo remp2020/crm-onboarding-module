@@ -141,7 +141,9 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $control = $factory->create();
         $control->setGraphTitle($this->translator->translate('onboarding.admin.onboarding_goals.show.completion_graph_title'))
             ->setGraphHelp($this->translator->translate('onboarding.admin.onboarding_goals.show.completion_graph_help'))
-            ->addGraphDataItem($graphDataItem);
+            ->addGraphDataItem($graphDataItem)
+            ->setFrom($this->dateFrom)
+            ->setTo($this->dateTo);
 
         return $control;
     }
