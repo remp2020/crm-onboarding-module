@@ -6,7 +6,7 @@ use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\ActiveRow;
 use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroupControlFactoryInterface;
 use Crm\ApplicationModule\Components\Graphs\GoogleSankeyGraphGroupControlFactoryInterface;
-use Crm\ApplicationModule\Components\VisualPaginator;
+use Crm\ApplicationModule\Components\PreviousNextPaginator;
 use Crm\ApplicationModule\Graphs\Criteria;
 use Crm\ApplicationModule\Graphs\GraphDataItem;
 use Crm\OnboardingModule\Forms\OnboardingGoalFormFactory;
@@ -65,14 +65,17 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $goalsLast31days = $this->userOnboardingGoalsRepository
             ->completedGoalsCountSince((new DateTime())->sub(new DateInterval('P31D')));
 
-        $vp = new VisualPaginator();
-        $this->addComponent($vp, 'goals_vp');
 
-        $paginator = $vp->getPaginator();
-        $paginator->setItemCount((clone $onboardingGoals)->count('*'));
+        $pnp = new PreviousNextPaginator();
+        $this->addComponent($pnp, 'paginator');
+        $paginator = $pnp->getPaginator();
         $paginator->setItemsPerPage($this->onPage);
 
-        $this->template->onboardingGoals = $onboardingGoals->limit($paginator->getLength(), $paginator->getOffset());
+
+        $onboardingGoals = $onboardingGoals->limit($paginator->getLength(), $paginator->getOffset())->fetchAll();
+        $pnp->setActualItemCount(count($onboardingGoals));
+
+        $this->template->onboardingGoals = $onboardingGoals;
         $this->template->goalsLast24hours = $goalsLast24hours;
         $this->template->goalsLast7days = $goalsLast7days;
         $this->template->goalsLast31days = $goalsLast31days;
