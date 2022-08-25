@@ -2,8 +2,8 @@
 
 namespace Crm\OnboardingModule\Forms;
 
+use Contributte\Translation\Translator;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
-use Kdyby\Translation\Translator;
 use Nette\Application\UI\Form;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
