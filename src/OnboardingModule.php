@@ -12,7 +12,7 @@ use Crm\ApplicationModule\Event\EventsStorage;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
 use Crm\ApplicationModule\SeederManager;
-use Crm\ApplicationModule\Widget\WidgetManagerInterface;
+use Crm\ApplicationModule\Widget\LazyWidgetManagerInterface;
 use Crm\OnboardingModule\Components\OnboardingProgress;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEventHandler;
@@ -78,11 +78,11 @@ class OnboardingModule extends CrmModule
         $seederManager->addSeeder($this->getInstance(SegmentsSeeder::class));
     }
 
-    public function registerWidgets(WidgetManagerInterface $widgetManager)
+    public function registerLazyWidgets(LazyWidgetManagerInterface $widgetManager)
     {
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
-            $this->getInstance(OnboardingProgress::class),
+            OnboardingProgress::class,
             1500
         );
     }
