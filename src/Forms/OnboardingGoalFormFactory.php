@@ -81,10 +81,10 @@ class OnboardingGoalFormFactory
         if ($id) {
             $goal = $this->onboardingGoalsRepository->find($id);
             $this->onboardingGoalsRepository->update($goal, $values);
-            $this->onUpdate->__invoke($goal);
+            ($this->onUpdate)($goal);
         } else {
             $goal = $this->onboardingGoalsRepository->add($values['code'], $values['name'], $values['type']);
-            $this->onSave->__invoke($goal);
+            ($this->onSave)($goal);
         }
     }
 }
