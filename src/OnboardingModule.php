@@ -20,7 +20,6 @@ use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEventHandler;
 use Crm\OnboardingModule\Scenarios\OnboardingGoalCompletedCriteria;
 use Crm\OnboardingModule\Seeders\SegmentsSeeder;
-use League\Event\Emitter;
 
 class OnboardingModule extends CrmModule
 {
@@ -52,15 +51,15 @@ class OnboardingModule extends CrmModule
         $eventsStorage->register('onboarding_goal_created', OnboardingGoalCreatedEvent::class);
     }
 
-    public function registerEventHandlers(Emitter $emitter)
+    public function registerLazyEventHandlers(\Crm\ApplicationModule\Event\LazyEventEmitter $emitter)
     {
         $emitter->addListener(
             OnboardingGoalCreatedEvent::class,
-            $this->getInstance(OnboardingGoalCreatedEventHandler::class)
+            OnboardingGoalCreatedEventHandler::class
         );
         $emitter->addListener(
             OnboardingGoalUpdatedEvent::class,
-            $this->getInstance(OnboardingGoalUpdatedEventHandler::class)
+            OnboardingGoalUpdatedEventHandler::class
         );
     }
 
