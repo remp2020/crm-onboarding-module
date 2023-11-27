@@ -2,6 +2,7 @@
 
 namespace Crm\OnboardingModule\Tests;
 
+use Crm\ApplicationModule\Event\LazyEventEmitter;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
 use Crm\PaymentsModule\Events\PaymentChangeStatusEvent;
@@ -15,13 +16,12 @@ use Crm\SubscriptionsModule\Generator\SubscriptionsParams;
 use Crm\SubscriptionsModule\Repository\SubscriptionsRepository;
 use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Repository\UsersRepository;
-use League\Event\Emitter;
 use Nette\Utils\DateTime;
 
 class UserOnboardingGoalsRepositoryTest extends BaseTestCase
 {
-    /** @var Emitter */
-    private $emitter;
+    /** @var LazyEventEmitter */
+    private $lazyEventEmitter;
 
     /** @var UserManager */
     private $userManager;
@@ -49,7 +49,7 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->emitter = $this->inject(Emitter::class);
+        $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
         $this->userManager = $this->inject(UserManager::class);
         $this->usersRepository = $this->inject(UsersRepository::class);
         $this->onboardingGoalsRepository = $this->getRepository(OnboardingGoalsRepository::class);
@@ -140,7 +140,7 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
     {
         // To create subscriptions from payments, register listener
         $paymentStatusChangeHandler = $this->inject(PaymentStatusChangeHandler::class);
-        $this->emitter->addListener(PaymentChangeStatusEvent::class, $paymentStatusChangeHandler);
+        $this->lazyEventEmitter->addListener(PaymentChangeStatusEvent::class, $paymentStatusChangeHandler);
 
         $subscriptionType = $this->subscriptionTypeBuilder
             ->createNew()
@@ -190,7 +190,7 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
         $this->assertEquals(1, $daysCounts['7-30']);
         $this->assertEquals(1, $daysCounts['-']);
 
-        $this->emitter->removeListener(PaymentChangeStatusEvent::class, $paymentStatusChangeHandler);
+        $this->lazyEventEmitter->removeAllListeners(PaymentChangeStatusEvent::class);
     }
 
     private function addSubscription($user, $subscriptionType, $startDateString = '2020-01-01 01:00:00', $endDateString = '2021-01-01 01:00:00')

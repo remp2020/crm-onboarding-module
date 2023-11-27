@@ -1,6 +1,7 @@
 <?php
 namespace Crm\OnboardingModule\Tests;
 
+use Crm\ApplicationModule\Event\LazyEventEmitter;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEventHandler;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
@@ -8,12 +9,11 @@ use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEventHandler;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Seeders\SegmentsSeeder;
 use Crm\SegmentModule\Repository\SegmentsRepository;
-use League\Event\Emitter;
 
 class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
 {
-    /** @var Emitter */
-    private $emitter;
+    /** @var LazyEventEmitter */
+    private $lazyEventEmitter;
 
     /** @var OnboardingGoalsRepository */
     private $onboardingGoalsRepository;
@@ -41,12 +41,12 @@ class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
         parent::setUp();
 
         // register listeners; we want to test if event was emitted from repository
-        $this->emitter = $this->inject(Emitter::class);
-        $this->emitter->addListener(
+        $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
+        $this->lazyEventEmitter->addListener(
             OnboardingGoalCreatedEvent::class,
             $this->inject(OnboardingGoalCreatedEventHandler::class)
         );
-        $this->emitter->addListener(
+        $this->lazyEventEmitter->addListener(
             OnboardingGoalUpdatedEvent::class,
             $this->inject(OnboardingGoalUpdatedEventHandler::class)
         );
@@ -57,14 +57,8 @@ class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
 
     protected function tearDown(): void
     {
-        $this->emitter->removeListener(
-            OnboardingGoalCreatedEvent::class,
-            $this->inject(OnboardingGoalCreatedEventHandler::class)
-        );
-        $this->emitter->removeListener(
-            OnboardingGoalUpdatedEvent::class,
-            $this->inject(OnboardingGoalUpdatedEventHandler::class)
-        );
+        $this->lazyEventEmitter->removeAllListeners(OnboardingGoalCreatedEvent::class);
+        $this->lazyEventEmitter->removeAllListeners(OnboardingGoalUpdatedEvent::class);
 
         parent::tearDown();
     }
