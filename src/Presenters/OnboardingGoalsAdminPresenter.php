@@ -13,6 +13,7 @@ use Crm\OnboardingModule\Forms\OnboardingGoalFormFactory;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
 use DateInterval;
+use Nette\Application\Attributes\Persistent;
 use Nette\Utils\DateTime;
 
 class OnboardingGoalsAdminPresenter extends AdminPresenter
@@ -23,10 +24,10 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
 
     private $userOnboardingGoalsRepository;
 
-    /** @persistent */
+    #[Persistent]
     public $dateFrom;
 
-    /** @persistent */
+    #[Persistent]
     public $dateTo;
 
     public $goalId;
