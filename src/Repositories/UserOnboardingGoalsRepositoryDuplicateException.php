@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\OnboardingModule\Repository;
+namespace Crm\OnboardingModule\Repositories;
 
 class UserOnboardingGoalsRepositoryDuplicateException extends \Exception
 {

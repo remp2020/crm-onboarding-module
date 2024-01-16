@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\OnboardingModule\Components;
+namespace Crm\OnboardingModule\Components\OnboardingProgress;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;

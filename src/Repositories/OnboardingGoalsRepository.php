@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\OnboardingModule\Repository;
+namespace Crm\OnboardingModule\Repositories;
 
 use Crm\ApplicationModule\Repository;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;

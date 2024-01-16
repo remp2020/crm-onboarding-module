@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\OnboardingModule\Tests;
+namespace Crm\OnboardingModule\Tests\Seeders;
 
 use Crm\OnboardingModule\Seeders\SegmentsSeeder;
 use Nette\Database\Table\ActiveRow;

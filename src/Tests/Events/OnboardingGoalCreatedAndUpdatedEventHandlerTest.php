@@ -1,5 +1,5 @@
 <?php
-namespace Crm\OnboardingModule\Tests;
+namespace Crm\OnboardingModule\Tests\Events;
 
 use Crm\ApplicationModule\Event\LazyEventEmitter;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
@@ -8,6 +8,7 @@ use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEventHandler;
 use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Seeders\SegmentsSeeder;
+use Crm\OnboardingModule\Tests\BaseTestCase;
 use Crm\SegmentModule\Repository\SegmentsRepository;
 
 class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
