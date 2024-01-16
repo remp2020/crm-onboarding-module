@@ -3,6 +3,7 @@
 namespace Crm\OnboardingModule\DI;
 
 use Contributte\Translation\DI\TranslationProviderInterface;
+use Nette\Application\IPresenterFactory;
 use Nette\DI\CompilerExtension;
 
 final class OnboardingModuleExtension extends CompilerExtension implements TranslationProviderInterface
@@ -19,7 +20,7 @@ final class OnboardingModuleExtension extends CompilerExtension implements Trans
     {
         $builder = $this->getContainerBuilder();
         // load presenters from extension to Nette
-        $builder->getDefinition($builder->getByType(\Nette\Application\IPresenterFactory::class))
+        $builder->getDefinition($builder->getByType(IPresenterFactory::class))
             ->addSetup('setMapping', [['Onboarding' => 'Crm\OnboardingModule\Presenters\*Presenter']]);
     }
 

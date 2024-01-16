@@ -9,10 +9,13 @@ use Crm\ApiModule\Router\ApiRoute;
 use Crm\ApplicationModule\Criteria\ScenariosCriteriaStorage;
 use Crm\ApplicationModule\CrmModule;
 use Crm\ApplicationModule\Event\EventsStorage;
+use Crm\ApplicationModule\Event\LazyEventEmitter;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
 use Crm\ApplicationModule\SeederManager;
 use Crm\ApplicationModule\Widget\LazyWidgetManagerInterface;
+use Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler;
+use Crm\OnboardingModule\Api\OnboardingGoalsListHandler;
 use Crm\OnboardingModule\Components\OnboardingProgress;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEventHandler;
@@ -26,10 +29,10 @@ class OnboardingModule extends CrmModule
     public function registerApiCalls(ApiRoutersContainerInterface $apiRoutersContainer)
     {
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'complete'), \Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'complete'), OnboardingGoalCompletedHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'list'), \Crm\OnboardingModule\Api\OnboardingGoalsListHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'list'), OnboardingGoalsListHandler::class, BearerTokenAuthorization::class)
         );
     }
 
@@ -51,7 +54,7 @@ class OnboardingModule extends CrmModule
         $eventsStorage->register('onboarding_goal_created', OnboardingGoalCreatedEvent::class);
     }
 
-    public function registerLazyEventHandlers(\Crm\ApplicationModule\Event\LazyEventEmitter $emitter)
+    public function registerLazyEventHandlers(LazyEventEmitter $emitter)
     {
         $emitter->addListener(
             OnboardingGoalCreatedEvent::class,

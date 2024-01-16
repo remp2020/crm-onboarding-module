@@ -8,6 +8,7 @@ use Crm\OnboardingModule\Events\UserOnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\UserOnboardingGoalTimedoutEvent;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
+use Nette\Database\ResultSet;
 use Nette\Database\Row;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
@@ -192,7 +193,7 @@ class UserOnboardingGoalsRepository extends Repository
      *
      * @param $onboardingGoalId int|string Distribution is computed for given onboarding goal ID.
      *
-     * @return array|Row[]|\Nette\Database\ResultSet
+     * @return array|Row[]|ResultSet
      */
     final public function userRegistrationAndSubscriptionOwnershipDistributionForGoal($onboardingGoalId)
     {
@@ -231,7 +232,7 @@ SQL;
      *
      * @param $onboardingGoalId int|string Distribution is computed for given onboarding goal ID.
      *
-     * @return array|Row[]|\Nette\Database\ResultSet
+     * @return array|Row[]|ResultSet
      */
     final public function nonSubscribersAndFirstFollowingPaymentInDaysDistributionForGoal($onboardingGoalId)
     {
