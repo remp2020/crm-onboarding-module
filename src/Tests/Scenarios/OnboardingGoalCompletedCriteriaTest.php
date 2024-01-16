@@ -2,8 +2,8 @@
 
 namespace Crm\OnboardingModule\Tests\Scenarios;
 
-use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
-use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
 use Crm\OnboardingModule\Scenarios\OnboardingGoalCompletedCriteria;
 use Crm\OnboardingModule\Tests\BaseTestCase;
 use Crm\UsersModule\Auth\UserManager;

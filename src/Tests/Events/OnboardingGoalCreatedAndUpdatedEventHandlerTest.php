@@ -6,7 +6,7 @@ use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEventHandler;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEventHandler;
-use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Seeders\SegmentsSeeder;
 use Crm\OnboardingModule\Tests\BaseTestCase;
 use Crm\SegmentModule\Repository\SegmentsRepository;

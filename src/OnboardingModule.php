@@ -16,7 +16,7 @@ use Crm\ApplicationModule\SeederManager;
 use Crm\ApplicationModule\Widget\LazyWidgetManagerInterface;
 use Crm\OnboardingModule\Api\OnboardingGoalCompletedHandler;
 use Crm\OnboardingModule\Api\OnboardingGoalsListHandler;
-use Crm\OnboardingModule\Components\OnboardingProgress;
+use Crm\OnboardingModule\Components\OnboardingProgress\OnboardingProgress;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEventHandler;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;

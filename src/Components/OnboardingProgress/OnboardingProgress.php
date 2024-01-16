@@ -3,8 +3,8 @@
 namespace Crm\OnboardingModule\Components\OnboardingProgress;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
-use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
-use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;

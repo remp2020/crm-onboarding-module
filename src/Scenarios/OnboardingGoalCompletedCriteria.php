@@ -5,7 +5,7 @@ namespace Crm\OnboardingModule\Scenarios;
 use Crm\ApplicationModule\Criteria\ScenarioParams\StringLabeledArrayParam;
 use Crm\ApplicationModule\Criteria\ScenarioParams\TimeframeParam;
 use Crm\ApplicationModule\Criteria\ScenariosCriteriaInterface;
-use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Localization\Translator;

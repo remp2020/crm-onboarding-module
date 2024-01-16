@@ -4,8 +4,8 @@ namespace Crm\OnboardingModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\JsonValidationTrait;
-use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
-use Crm\OnboardingModule\Repository\UserOnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;

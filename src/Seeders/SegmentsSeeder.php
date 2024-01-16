@@ -4,7 +4,7 @@ namespace Crm\OnboardingModule\Seeders;
 
 use Crm\ApplicationModule\Seeders\ISeeder;
 use Crm\OnboardingModule\Models\OnboardingGoalSegment;
-use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\SegmentModule\Repository\SegmentGroupsRepository;
 use Crm\SegmentModule\Repository\SegmentsRepository;
 use Crm\SegmentModule\Seeders\SegmentsTrait;

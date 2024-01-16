@@ -3,7 +3,7 @@
 namespace Crm\OnboardingModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\OnboardingModule\Repository\OnboardingGoalsRepository;
+use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
