@@ -122,18 +122,18 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
         $nonSubscribers = [];
         foreach ($distributions as $r) {
             if ($r->had_subscription) {
-                $subscribers[$r->days_from_registration_range] = (int)$r->total;
+                $subscribers[(string) $r->days_from_registration_range] = (int)$r->total;
             } else {
-                $nonSubscribers[$r->days_from_registration_range] = (int)$r->total;
+                $nonSubscribers[(string) $r->days_from_registration_range] = (int)$r->total;
             }
         }
 
-        $this->assertEquals(1, $subscribers['0']);
-        $this->assertEquals(2, $subscribers['2']);
-        $this->assertEquals(1, $subscribers['3-6']);
-        $this->assertEquals(1, $subscribers['31+']);
-        $this->assertEquals(2, $nonSubscribers['1']);
-        $this->assertEquals(3, $nonSubscribers['7-30']);
+        $this->assertEquals(1, $subscribers['0'] ?? 0);
+        $this->assertEquals(2, $subscribers['2'] ?? 0);
+        $this->assertEquals(1, $subscribers['3-6'] ?? 0);
+        $this->assertEquals(1, $subscribers['31+'] ?? 0);
+        $this->assertEquals(2, $nonSubscribers['1'] ?? 0);
+        $this->assertEquals(3, $nonSubscribers['7-30'] ?? 0);
     }
 
     public function testNonSubscribersAndFirstFollowingPaymentInDaysDistribution()
@@ -182,13 +182,13 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
 
         $daysCounts = [];
         foreach ($distributions as $r) {
-            $daysCounts[$r->first_payment_in_days_range] = (int)$r->total;
+            $daysCounts[(string) $r->first_payment_in_days_range] = (int)$r->total;
         }
 
-        $this->assertEquals(1, $daysCounts['0']);
-        $this->assertEquals(2, $daysCounts['1']);
-        $this->assertEquals(1, $daysCounts['7-30']);
-        $this->assertEquals(1, $daysCounts['-']);
+        $this->assertEquals(1, $daysCounts['0'] ?? 0);
+        $this->assertEquals(2, $daysCounts['1'] ?? 0);
+        $this->assertEquals(1, $daysCounts['7-30'] ?? 0);
+        $this->assertEquals(1, $daysCounts['-'] ?? 0);
 
         $this->lazyEventEmitter->removeAllListeners(PaymentChangeStatusEvent::class);
     }
