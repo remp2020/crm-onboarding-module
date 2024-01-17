@@ -9,7 +9,7 @@ use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEventHandler;
 use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Seeders\SegmentsSeeder;
 use Crm\OnboardingModule\Tests\BaseTestCase;
-use Crm\SegmentModule\Repository\SegmentsRepository;
+use Crm\SegmentModule\Repositories\SegmentsRepository;
 
 class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
 {

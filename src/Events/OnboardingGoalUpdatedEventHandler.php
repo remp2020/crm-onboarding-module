@@ -3,8 +3,8 @@
 namespace Crm\OnboardingModule\Events;
 
 use Crm\OnboardingModule\Seeders\SegmentsSeeder;
-use Crm\SegmentModule\Repository\SegmentGroupsRepository;
-use Crm\SegmentModule\Repository\SegmentsRepository;
+use Crm\SegmentModule\Repositories\SegmentGroupsRepository;
+use Crm\SegmentModule\Repositories\SegmentsRepository;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 
