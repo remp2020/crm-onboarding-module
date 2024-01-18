@@ -5,7 +5,7 @@ namespace Crm\OnboardingModule\Components\OnboardingProgress;
 use Crm\ApplicationModule\Widget\WidgetInterface;
 use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 

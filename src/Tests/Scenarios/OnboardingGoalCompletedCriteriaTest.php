@@ -6,8 +6,8 @@ use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
 use Crm\OnboardingModule\Scenarios\OnboardingGoalCompletedCriteria;
 use Crm\OnboardingModule\Tests\BaseTestCase;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Localization\Translator;
 use Nette\Utils\DateTime;
 
