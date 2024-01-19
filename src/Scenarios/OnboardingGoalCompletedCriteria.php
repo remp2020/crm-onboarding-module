@@ -2,9 +2,9 @@
 
 namespace Crm\OnboardingModule\Scenarios;
 
-use Crm\ApplicationModule\Criteria\ScenarioParams\StringLabeledArrayParam;
-use Crm\ApplicationModule\Criteria\ScenarioParams\TimeframeParam;
-use Crm\ApplicationModule\Criteria\ScenariosCriteriaInterface;
+use Crm\ApplicationModule\Models\Criteria\ScenarioParams\StringLabeledArrayParam;
+use Crm\ApplicationModule\Models\Criteria\ScenarioParams\TimeframeParam;
+use Crm\ApplicationModule\Models\Criteria\ScenariosCriteriaInterface;
 use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;

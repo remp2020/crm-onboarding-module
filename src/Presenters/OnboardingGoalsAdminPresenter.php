@@ -3,12 +3,12 @@
 namespace Crm\OnboardingModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\ApplicationModule\ActiveRow;
-use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroupControlFactoryInterface;
-use Crm\ApplicationModule\Components\Graphs\GoogleSankeyGraphGroupControlFactoryInterface;
-use Crm\ApplicationModule\Components\PreviousNextPaginator;
-use Crm\ApplicationModule\Graphs\Criteria;
-use Crm\ApplicationModule\Graphs\GraphDataItem;
+use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroup\GoogleLineGraphGroupControlFactoryInterface;
+use Crm\ApplicationModule\Components\Graphs\GoogleSankeyGraphGroup\GoogleSankeyGraphGroupControlFactoryInterface;
+use Crm\ApplicationModule\Components\PreviousNextPaginator\PreviousNextPaginator;
+use Crm\ApplicationModule\Models\Database\ActiveRow;
+use Crm\ApplicationModule\Models\Graphs\Criteria;
+use Crm\ApplicationModule\Models\Graphs\GraphDataItem;
 use Crm\OnboardingModule\Forms\OnboardingGoalFormFactory;
 use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;

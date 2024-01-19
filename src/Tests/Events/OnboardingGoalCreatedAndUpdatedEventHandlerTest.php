@@ -1,7 +1,7 @@
 <?php
 namespace Crm\OnboardingModule\Tests\Events;
 
-use Crm\ApplicationModule\Event\LazyEventEmitter;
+use Crm\ApplicationModule\Models\Event\LazyEventEmitter;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEventHandler;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;

@@ -2,7 +2,7 @@
 
 namespace Crm\OnboardingModule\Repositories;
 
-use Crm\ApplicationModule\Repository;
+use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\OnboardingModule\Events\UserOnboardingGoalCompletedEvent;
 use Crm\OnboardingModule\Events\UserOnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\UserOnboardingGoalTimedoutEvent;

@@ -2,7 +2,7 @@
 
 namespace Crm\OnboardingModule\Components\OnboardingProgress;
 
-use Crm\ApplicationModule\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\WidgetInterface;
 use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
 use Crm\UsersModule\Repositories\UsersRepository;

@@ -2,7 +2,7 @@
 
 namespace Crm\OnboardingModule\Repositories;
 
-use Crm\ApplicationModule\Repository;
+use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\OnboardingModule\Events\OnboardingGoalCreatedEvent;
 use Crm\OnboardingModule\Events\OnboardingGoalUpdatedEvent;
 use League\Event\Emitter;

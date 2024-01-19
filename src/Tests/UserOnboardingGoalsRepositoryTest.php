@@ -2,7 +2,7 @@
 
 namespace Crm\OnboardingModule\Tests;
 
-use Crm\ApplicationModule\Event\LazyEventEmitter;
+use Crm\ApplicationModule\Models\Event\LazyEventEmitter;
 use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
 use Crm\PaymentsModule\Events\PaymentChangeStatusEvent;
