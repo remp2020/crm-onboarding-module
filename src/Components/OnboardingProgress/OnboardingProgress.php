@@ -3,9 +3,7 @@
 namespace Crm\OnboardingModule\Components\OnboardingProgress;
 
 use Crm\ApplicationModule\Models\Widget\WidgetInterface;
-use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
 use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
-use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 
@@ -17,22 +15,14 @@ class OnboardingProgress extends Control implements WidgetInterface
 
     private $completedCount;
 
-    private $onboardingGoalsRepository;
-
     private $userOnboardingGoalsRepository;
 
-    private $usersRepository;
-
     public function __construct(
-        UsersRepository $usersRepository,
-        OnboardingGoalsRepository $onboardingGoalsRepository,
         UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
         Translator $translator
     ) {
         $this->translator = $translator;
-        $this->onboardingGoalsRepository = $onboardingGoalsRepository;
         $this->userOnboardingGoalsRepository = $userOnboardingGoalsRepository;
-        $this->usersRepository = $usersRepository;
     }
 
     public function header($id = '')
