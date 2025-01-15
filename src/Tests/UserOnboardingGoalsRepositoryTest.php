@@ -10,6 +10,7 @@ use Crm\PaymentsModule\Events\PaymentStatusChangeHandler;
 use Crm\PaymentsModule\Models\PaymentItem\PaymentItemContainer;
 use Crm\PaymentsModule\Repositories\PaymentGatewaysRepository;
 use Crm\PaymentsModule\Repositories\PaymentsRepository;
+use Crm\PaymentsModule\Tests\Gateways\TestRecurrentGateway;
 use Crm\SubscriptionsModule\Models\Builder\SubscriptionTypeBuilder;
 use Crm\SubscriptionsModule\Models\Generator\SubscriptionsGenerator;
 use Crm\SubscriptionsModule\Models\Generator\SubscriptionsParams;
@@ -58,8 +59,9 @@ class UserOnboardingGoalsRepositoryTest extends BaseTestCase
         $this->subscriptionGenerator = $this->inject(SubscriptionsGenerator::class);
         $this->paymentsRepository = $this->inject(PaymentsRepository::class);
 
+        /** @var PaymentGatewaysRepository $pgr */
         $pgr = $this->getRepository(PaymentGatewaysRepository::class);
-        $this->paymentGateway = $pgr->add('test', 'test', 10, true, true);
+        $this->paymentGateway = $pgr->findByCode(TestRecurrentGateway::GATEWAY_CODE);
     }
 
     public function testUserRegistrationAndSubscriptionOwnershipDistribution()
