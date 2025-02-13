@@ -3,8 +3,8 @@
 namespace Crm\OnboardingModule\Forms;
 
 use Contributte\Translation\Translator;
+use Crm\ApplicationModule\UI\Form;
 use Crm\OnboardingModule\Repositories\OnboardingGoalsRepository;
-use Nette\Application\UI\Form;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class OnboardingGoalFormFactory
