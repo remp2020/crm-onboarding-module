@@ -21,7 +21,7 @@ class OnboardingGoalFormFactory
 
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->translator = $translator;
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
@@ -56,7 +56,7 @@ class OnboardingGoalFormFactory
         $form->addSelect(
             'type',
             'onboarding.data.goals.fields.type',
-            $typeInputValues
+            $typeInputValues,
         )
             ->setRequired();
 

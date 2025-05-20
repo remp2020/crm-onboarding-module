@@ -16,7 +16,7 @@ class OnboardingGoalUpdatedEventHandler extends AbstractListener
 
     public function __construct(
         SegmentGroupsRepository $segmentGroupsRepository,
-        SegmentsRepository $segmentsRepository
+        SegmentsRepository $segmentsRepository,
     ) {
         $this->segmentGroupsRepository = $segmentGroupsRepository;
         $this->segmentsRepository = $segmentsRepository;
@@ -46,7 +46,7 @@ class OnboardingGoalUpdatedEventHandler extends AbstractListener
             $segmentProperties['query_string'],
             $segmentProperties['table_name'],
             $segmentProperties['fields'],
-            $group
+            $group,
         );
         $this->segmentsRepository->setLock($segment, true);
     }

@@ -26,7 +26,7 @@ class SegmentsSeeder implements ISeeder
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
         SegmentGroupsRepository $segmentGroupsRepository,
-        SegmentsRepository $segmentsRepository
+        SegmentsRepository $segmentsRepository,
     ) {
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
         $this->segmentGroupsRepository = $segmentGroupsRepository;
@@ -39,7 +39,7 @@ class SegmentsSeeder implements ISeeder
             $output,
             'Onboarding',
             self::ONBOARDING_GOAL_GROUP_CODE,
-            1300
+            1300,
         );
 
         foreach ($this->onboardingGoalsRepository->all() as $onboardingGoal) {
@@ -55,7 +55,7 @@ class SegmentsSeeder implements ISeeder
                 $segmentProperties['name'],
                 $segmentProperties['code'],
                 $segmentProperties['query_string'],
-                $onboardingSegmentsGroup
+                $onboardingSegmentsGroup,
             );
             $this->segmentsRepository->setLock($segment, true);
         }

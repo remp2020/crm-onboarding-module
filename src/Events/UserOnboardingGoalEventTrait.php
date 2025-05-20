@@ -9,7 +9,7 @@ trait UserOnboardingGoalEventTrait
     private $userOnboardingGoal;
 
     public function __construct(
-        ActiveRow $userOnboardingGoal
+        ActiveRow $userOnboardingGoal,
     ) {
         $this->userOnboardingGoal = $userOnboardingGoal;
     }

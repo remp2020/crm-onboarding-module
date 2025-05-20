@@ -42,7 +42,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
         UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
-        OnboardingGoalFormFactory $onboardingGoalFormFactory
+        OnboardingGoalFormFactory $onboardingGoalFormFactory,
     ) {
         parent::__construct();
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
@@ -167,7 +167,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
             $graphRows[] = [
                 $text,
                 $row->had_subscription ? $subscriberCaption : $nonSubscriberCaption,
-                (int) $row->total
+                (int) $row->total,
             ];
         }
 
@@ -178,7 +178,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $graph->setColumnNames(
             $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.from'),
             $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.to'),
-            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.users_count')
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.users_count'),
         );
         return $graph;
     }
@@ -198,7 +198,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
             $graphRows[] = [
                 $nonSubscriberCaption,
                 $row->first_payment_in_days_range === '-' ? $neverPaidText : $text,
-                (int) $row->total
+                (int) $row->total,
             ];
         }
 
@@ -209,7 +209,7 @@ class OnboardingGoalsAdminPresenter extends AdminPresenter
         $graph->setColumnNames(
             $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.from'),
             $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.to'),
-            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.users_count')
+            $this->translator->translate('onboarding.admin.onboarding_goals.show.flow_graph.users_count'),
         );
 
         return $graph;

@@ -29,10 +29,10 @@ class OnboardingModule extends CrmModule
     public function registerApiCalls(ApiRoutersContainerInterface $apiRoutersContainer)
     {
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'complete'), OnboardingGoalCompletedHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'complete'), OnboardingGoalCompletedHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'list'), OnboardingGoalsListHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'onboarding-goals', 'list'), OnboardingGoalsListHandler::class, BearerTokenAuthorization::class),
         );
     }
 
@@ -44,7 +44,7 @@ class OnboardingModule extends CrmModule
             $this->translator->translate('onboarding.menu.onboarding_goals'),
             ':Onboarding:OnboardingGoalsAdmin:',
             'fa fa-check',
-            900
+            900,
         );
         $menuContainer->attachMenuItemToForeignModule(':Users:UsersAdmin:', $internalMenu, $menuItem);
     }
@@ -58,11 +58,11 @@ class OnboardingModule extends CrmModule
     {
         $emitter->addListener(
             OnboardingGoalCreatedEvent::class,
-            OnboardingGoalCreatedEventHandler::class
+            OnboardingGoalCreatedEventHandler::class,
         );
         $emitter->addListener(
             OnboardingGoalUpdatedEvent::class,
-            OnboardingGoalUpdatedEventHandler::class
+            OnboardingGoalUpdatedEventHandler::class,
         );
     }
 
@@ -71,7 +71,7 @@ class OnboardingModule extends CrmModule
         $scenariosCriteriaStorage->register(
             'user',
             OnboardingGoalCompletedCriteria::KEY,
-            $this->getInstance(OnboardingGoalCompletedCriteria::class)
+            $this->getInstance(OnboardingGoalCompletedCriteria::class),
         );
     }
 
@@ -85,7 +85,7 @@ class OnboardingModule extends CrmModule
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
             OnboardingProgress::class,
-            1500
+            1500,
         );
     }
 }

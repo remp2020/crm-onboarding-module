@@ -20,7 +20,7 @@ class OnboardingGoalsRepository extends Repository
 
     public function __construct(
         Explorer $database,
-        Emitter $emitter
+        Emitter $emitter,
     ) {
         parent::__construct($database);
         $this->emitter = $emitter;

@@ -31,7 +31,7 @@ class OnboardingGoalsListHandler extends ApiHandler
             $goals[] = [
                 'name' => $goal->name,
                 'code' => $goal->code,
-                'type' => $goal->type
+                'type' => $goal->type,
             ];
         }
 

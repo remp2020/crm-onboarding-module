@@ -45,11 +45,11 @@ class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
         $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
         $this->lazyEventEmitter->addListener(
             OnboardingGoalCreatedEvent::class,
-            $this->inject(OnboardingGoalCreatedEventHandler::class)
+            $this->inject(OnboardingGoalCreatedEventHandler::class),
         );
         $this->lazyEventEmitter->addListener(
             OnboardingGoalUpdatedEvent::class,
-            $this->inject(OnboardingGoalUpdatedEventHandler::class)
+            $this->inject(OnboardingGoalUpdatedEventHandler::class),
         );
 
         $this->onboardingGoalsRepository = $this->getRepository(OnboardingGoalsRepository::class);
@@ -70,7 +70,7 @@ class OnboardingGoalCreatedAndUpdatedEventHandlerTest extends BaseTestCase
         $onboardingGoal = $this->onboardingGoalsRepository->add(
             'test_onboarding_goal_code',
             'test_onboarding_goal_name',
-            OnboardingGoalsRepository::TYPE_SIMPLE
+            OnboardingGoalsRepository::TYPE_SIMPLE,
         );
 
         // tested within Crm\OnboardingModule\Tests\Seeders\SegmentsSeederTest

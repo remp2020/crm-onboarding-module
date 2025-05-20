@@ -34,7 +34,7 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
 
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
         $this->translator = $translator;
@@ -47,7 +47,7 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
             new StringLabeledArrayParam(
                 self::GOALS_KEY,
                 $this->translator->translate('onboarding.scenarios.criteria.completed_goal.goal_param.label'),
-                $onboardingGoals
+                $onboardingGoals,
             ),
             new TimeframeParam(
                 self::TIMEFRAME_KEY,
@@ -55,7 +55,7 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
                 $this->translator->translate('onboarding.scenarios.criteria.completed_goal.timeframe_param.amount_label'),
                 $this->translator->translate('onboarding.scenarios.criteria.completed_goal.timeframe_param.units_label'),
                 array_values(self::OPERATORS),
-                self::UNITS
+                self::UNITS,
             ),
         ];
     }
@@ -71,7 +71,7 @@ class OnboardingGoalCompletedCriteria implements ScenariosCriteriaInterface
             $paramValues[self::TIMEFRAME_KEY],
             $paramValues[self::TIMEFRAME_KEY]->operator,
             $paramValues[self::TIMEFRAME_KEY]->unit,
-            $paramValues[self::TIMEFRAME_KEY]->selection
+            $paramValues[self::TIMEFRAME_KEY]->selection,
         )) {
             $timeframeOperator = array_search($paramValues[self::TIMEFRAME_KEY]->operator, self::OPERATORS, true);
             if ($timeframeOperator === false) {

@@ -19,7 +19,7 @@ class OnboardingProgress extends Control implements WidgetInterface
 
     public function __construct(
         UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->translator = $translator;
         $this->userOnboardingGoalsRepository = $userOnboardingGoalsRepository;

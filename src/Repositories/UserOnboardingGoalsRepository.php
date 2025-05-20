@@ -22,7 +22,7 @@ class UserOnboardingGoalsRepository extends Repository
 
     public function __construct(
         Explorer $database,
-        Emitter $emitter
+        Emitter $emitter,
     ) {
         parent::__construct($database);
         $this->emitter = $emitter;
@@ -126,7 +126,7 @@ class UserOnboardingGoalsRepository extends Repository
         // too many active entries
         if (count($userOnboardingGoals) > 1) {
             throw new UserOnboardingGoalsRepositoryDuplicateException(
-                "User [{$userId}] has more active entries for onboarding goal [{$onboardingGoalId}]."
+                "User [{$userId}] has more active entries for onboarding goal [{$onboardingGoalId}].",
             );
         }
 

@@ -24,7 +24,7 @@ class OnboardingGoalCompletedHandler extends ApiHandler
     public function __construct(
         OnboardingGoalsRepository $onboardingGoalsRepository,
         UsersRepository $usersRepository,
-        UserOnboardingGoalsRepository $userOnboardingGoalsRepository
+        UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
     ) {
         $this->onboardingGoalsRepository = $onboardingGoalsRepository;
         $this->userOnboardingGoalsRepository = $userOnboardingGoalsRepository;

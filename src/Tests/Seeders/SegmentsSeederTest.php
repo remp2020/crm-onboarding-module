@@ -20,7 +20,7 @@ class SegmentsSeederTest extends TestCase
                 'code' => $onboardingGoalCode,
                 'name' => $onboardingGoalName,
             ],
-            $mockedSelection
+            $mockedSelection,
         );
 
         $segmentProperties = SegmentsSeeder::generateOnboardingGoalSegmentProperties($onboardingGoal);

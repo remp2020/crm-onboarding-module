@@ -32,7 +32,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         $this->onboardingGoalsRepository = $this->getRepository(OnboardingGoalsRepository::class);
         $this->onboardingGoalCompletedCriteria = new OnboardingGoalCompletedCriteria(
             $this->onboardingGoalsRepository,
-            $this->inject(Translator::class)
+            $this->inject(Translator::class),
         );
         $this->userOnboardingGoalsRepository = $this->getRepository(UserOnboardingGoalsRepository::class);
         $this->usersRepository = $this->getRepository(UsersRepository::class);
@@ -63,8 +63,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
                 [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]]],
-                $user
-            )
+                $user,
+            ),
         );
 
         // user passed criteria; user row is returned from selection
@@ -84,8 +84,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
                 [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]]],
-                $user
-            )
+                $user,
+            ),
         );
 
         // user failed criteria; no user is returned
@@ -103,8 +103,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
                 [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]]],
-                $user
-            )
+                $user,
+            ),
         );
 
         // user failed criteria; no user is returned
@@ -123,8 +123,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
             $this->onboardingGoalCompletedCriteria->addConditions(
                 $criteriaSelection,
                 [OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => ['different_not_completed_goal']]],
-                $user
-            )
+                $user,
+            ),
         );
 
         // user failed criteria; no user is returned
@@ -144,7 +144,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
                 'selection' => 1,
                 'operator' => OnboardingGoalCompletedCriteria::OPERATOR_IN_THE_LAST,
                 'unit' => 'months',
-            ]
+            ],
         );
 
         // user passed criteria; user row is returned from selection
@@ -162,7 +162,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
                 'selection' => 1,
                 'operator' => OnboardingGoalCompletedCriteria::OPERATOR_IN_THE_LAST,
                 'unit' => 'months',
-            ]
+            ],
         );
 
         // user failed criteria; no user is returned
@@ -178,7 +178,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
                 'selection' => 1,
                 'operator' => OnboardingGoalCompletedCriteria::OPERATOR_BEFORE,
                 'unit' => 'months',
-            ]
+            ],
         );
 
         // user failed criteria; no user is returned
@@ -194,7 +194,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         $onboardingGoal = $this->onboardingGoalsRepository->add(
             'test_goal',
             'Test goal',
-            OnboardingGoalsRepository::TYPE_SIMPLE
+            OnboardingGoalsRepository::TYPE_SIMPLE,
         );
 
         /** @var UserManager $userManager */
@@ -207,7 +207,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         return [
             $onboardingGoal,
             $user,
-            $criteriaSelection
+            $criteriaSelection,
         ];
     }
 
@@ -219,7 +219,7 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
         $this->userOnboardingGoalsRepository->complete(
             $user->id,
             $onboardingGoal->id,
-            (new DateTime())->modify($goalCompletedAgo)
+            (new DateTime())->modify($goalCompletedAgo),
         );
 
         // set scenario condition to check if user completed goal within defined timeframe
@@ -230,8 +230,8 @@ class OnboardingGoalCompletedCriteriaTest extends BaseTestCase
                     OnboardingGoalCompletedCriteria::GOALS_KEY => (object)['selection' => [$onboardingGoal->code]],
                     OnboardingGoalCompletedCriteria::TIMEFRAME_KEY => (object)$timeframeSettings,
                 ],
-                $user
-            )
+                $user,
+            ),
         );
 
         return [$criteriaSelection, $user];
