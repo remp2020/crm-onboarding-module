@@ -2,12 +2,13 @@
 
 namespace Crm\OnboardingModule\Components\OnboardingProgress;
 
-use Crm\ApplicationModule\Models\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\DetailWidgetInterface;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Crm\OnboardingModule\Repositories\UserOnboardingGoalsRepository;
-use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 
-class OnboardingProgress extends Control implements WidgetInterface
+class OnboardingProgress extends BaseLazyWidget implements DetailWidgetInterface
 {
     private $templateName = 'onboarding_progress.latte';
 
@@ -18,14 +19,16 @@ class OnboardingProgress extends Control implements WidgetInterface
     private $userOnboardingGoalsRepository;
 
     public function __construct(
+        LazyWidgetManager $lazyWidgetManager,
         UserOnboardingGoalsRepository $userOnboardingGoalsRepository,
         Translator $translator,
     ) {
+        parent::__construct($lazyWidgetManager);
         $this->translator = $translator;
         $this->userOnboardingGoalsRepository = $userOnboardingGoalsRepository;
     }
 
-    public function header($id = '')
+    public function header($id = ''): string
     {
         $header = $this->translator->translate('onboarding.component.onboarding_progress.header');
         if ($id) {
