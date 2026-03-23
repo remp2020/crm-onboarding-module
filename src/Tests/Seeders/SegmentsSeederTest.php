@@ -13,7 +13,7 @@ class SegmentsSeederTest extends TestCase
         $onboardingGoalID = 1;
         $onboardingGoalCode = 'test_segment_code';
         $onboardingGoalName = 'test_segment_name';
-        $mockedSelection = $this->createMock('Nette\Database\Table\Selection');
+        $mockedSelection = $this->createStub('Nette\Database\Table\Selection');
         $onboardingGoal = new ActiveRow(
             [
                 'id' => $onboardingGoalID,
