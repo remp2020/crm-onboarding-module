@@ -28,9 +28,6 @@ class OnboardingGoalCreatedEventHandler extends AbstractListener
             throw new \Exception('unexpected type of event, OnboardingGoalCreatedEvent expected: ' . get_class($event));
         }
         $onboardingGoal = $event->getOnboardingGoal();
-        if (!$onboardingGoal) {
-            throw new \Exception('OnboardingGoalCreatedEvent without onboarding goal');
-        }
 
         $group = $this->segmentGroupsRepository->findByCode(SegmentsSeeder::ONBOARDING_GOAL_GROUP_CODE);
         if ($group === null) {
